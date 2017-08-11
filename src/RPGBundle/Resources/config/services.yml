@@ -1,0 +1,13 @@
+services:
+
+    rpg.example.sum:
+      class: RPGBundle\Service\SumService
+
+    default_controller:
+      class: RPGBundle\Controller\DefaultController
+      autowire: true
+
+    test_command:
+      class: RPGBundle\Command\TestCommand
+      tags:
+        - {name: console.command}

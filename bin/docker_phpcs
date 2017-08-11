@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker exec -it challenge_php bash -c "./vendor/bin/phpcs --standard=ruleset.xml ./src/ ./features/ ./tests"

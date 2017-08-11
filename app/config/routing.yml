@@ -1,0 +1,3 @@
+rpg:
+    resource: "@RPGBundle/Resources/config/routing.yml"
+    prefix:   /

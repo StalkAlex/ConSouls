@@ -1,0 +1,50 @@
+version: '2'
+services:
+  data:
+    container_name: challenge_data
+    build: ./docker/data
+    volumes:
+      - /c/Users/stalk/OneDrive/Work/auto1:/www
+    command: /var/local/entrypoint.sh
+
+  db:
+    container_name: challenge_mysql
+    build: ./docker/mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - /c/Users/stalk/OneDrive/Work/auto1/.docker_data/mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: challenge
+      MYSQL_USER: challenge
+      MYSQL_PASSWORD: challenge
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+  php:
+    container_name: challenge_php
+    build: ./docker/php
+    volumes_from:
+      - data
+    links:
+      - db
+    environment:
+      CACHE_DIR: /www/var/cache
+      LOG_DIR: /www/var/logs
+      SESSION_DIR: /www/var/sessions
+      MYSQL_PASSWORD: challenge
+      MYSQL_DATABASE: challenge
+      MYSQL_USER: challenge
+      MYSQL_HOST: challenge_mysql
+    command: /var/local/entrypoint.sh
+
+  nginx:
+    container_name: challenge_nginx
+    build:
+      context: ./docker/nginx
+    ports:
+      - "8001:80"
+    links:
+      - php
+    volumes_from:
+      - php
+      - data

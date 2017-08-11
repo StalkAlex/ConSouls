@@ -1,0 +1,7 @@
+rpg_homepage:
+  path:     /
+  defaults: {_controller: default_controller:indexAction}
+
+rpg_sum_example:
+  path: /sum/{a}/{b}
+  defaults: {_controller: default_controller:sumAction}

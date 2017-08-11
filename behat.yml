@@ -1,0 +1,15 @@
+default:
+  suites:
+    default:
+      paths:    [ %paths.base%/features/default ]
+      contexts:
+        - Behat\MinkExtension\Context\MinkContext
+        - RPGBehat\FeatureContext
+
+  extensions:
+    Behat\Symfony2Extension: ~
+
+    Behat\MinkExtension:
+        sessions:
+            default:
+                symfony2: ~
