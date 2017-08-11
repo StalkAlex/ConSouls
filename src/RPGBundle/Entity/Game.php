@@ -10,6 +10,12 @@ namespace RPGBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Game
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="game")
+ */
 class Game
 {
     /**

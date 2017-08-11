@@ -11,6 +11,12 @@ namespace RPGBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * User
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="user")
+ */
 class User
 {
 
@@ -29,11 +35,10 @@ class User
     /**
      * @ORM\OneToMany(targetEntity="Game", mappedBy="user")
      */
-    public $games;
+    public $user;
 
     public function __construct()
     {
-        $this->games = new ArrayCollection();
     }
 
 }
