@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Game
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="RPGBundle\Repository\GameRepository"
  * @ORM\Table(name="game")
  */
 class Game
@@ -26,12 +26,12 @@ class Game
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="games")
+     * @ORM\ManyToOne(targetEntity="Profile", inversedBy="games")
      */
-    public $user;
+    public $profile;
 
     /**
-     * @return in
+     * @return int
      */
     public function getId()
     {
