@@ -6,14 +6,14 @@
  * Time: 21:27
  */
 
-namespace RPGBundle\Component;
+namespace RPGBundle\Service;
 
 
 use RPGBundle\Entity\Creature\Knight;
 use RPGBundle\Entity\Creature\Mage;
 use RPGBundle\Exception\CreatureNotFoundException;
 
-class CreatureFactory
+class CreatureFactoryService
 {
     /**
      * @param string $name

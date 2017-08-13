@@ -33,6 +33,17 @@ class Profile
      */
     private $name;
 
+
+    /**
+     * @ORM\Column(name="experience", type="integer")
+     */
+    private $experience;
+
+    /**
+     * @ORM\Column(name="level", type="integer")
+     */
+    private $level;
+
     /**
      * @ORM\Column(name="hero", type="string")
      */
@@ -46,6 +57,8 @@ class Profile
     public function __construct()
     {
         $this->games = new ArrayCollection();
+        $this->level = 1;
+        $this->experience = 0;
     }
 
     /**
@@ -65,7 +78,7 @@ class Profile
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getGames()
     {
@@ -75,7 +88,7 @@ class Profile
     /**
      * @return string
      */
-    public function getHero()
+    public function getHeroName()
     {
         return $this->hero;
     }
@@ -83,9 +96,33 @@ class Profile
     /**
      * @param string $hero
      */
-    public function setHero($hero)
+    public function setHeroName($hero)
     {
         $this->hero = $hero;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExperience()
+    {
+        return $this->experience;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
     }
 
 

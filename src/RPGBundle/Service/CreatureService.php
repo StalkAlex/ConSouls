@@ -8,21 +8,27 @@
 
 namespace RPGBundle\Service;
 
-
-use RPGBundle\Component\CreatureFactory;
-
+/**
+ * Class CreatureService
+ * @package RPGBundle\Service
+ */
 class CreatureService
 {
-    /** @var CreatureFactory $creatureFactory */
+    /** @var CreatureFactoryService $creatureFactory */
     private $creatureFactory;
 
-    public function __construct(CreatureFactory $creatureFactory)
+    public function __construct(CreatureFactoryService $creatureFactory)
     {
         $this->creatureFactory = $creatureFactory;
     }
 
-    public function GetAvailableHeroes(): array
+    public function getAvailableHeroes(): array
     {
         return $this->creatureFactory->getHeroes();
+    }
+
+    public function getHero(string $name)
+    {
+        return $this->creatureFactory->createHero($name);
     }
 }

@@ -13,4 +13,6 @@ class Mage extends Hero
 {
     protected $name = 'Mage';
     protected $description = 'Mighty wizard';
+    protected $stamina = 50;
+    protected $health = 100;
 }

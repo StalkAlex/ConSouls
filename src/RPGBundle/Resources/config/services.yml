@@ -3,11 +3,35 @@ services:
     rpg.example.sum:
       class: RPGBundle\Service\SumService
 
+    rpg.creature_factory:
+      class: RPGBundle\Service\CreatureFactoryService
+
+    rpg.creature:
+      class: RPGBundle\Service\CreatureService
+      arguments: ['@rpg.creature_factory']
+
+    rpg.game:
+      class: RPGBundle\Service\GameService
+
+    rpg.profile:
+      class: RPGBundle\Service\ProfileService
+      arguments: ['@doctrine.orm.default_entity_manager', '@validator']
+
     default_controller:
       class: RPGBundle\Controller\DefaultController
       autowire: true
 
     test_command:
       class: RPGBundle\Command\TestCommand
+      tags:
+        - {name: console.command}
+
+    character_command:
+      class: RPGBundle\Command\CharacterCommand
+      tags:
+        - {name: console.command}
+
+    game_command:
+      class: RPGBundle\Command\GameCommand
       tags:
         - {name: console.command}

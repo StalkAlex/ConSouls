@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Game
  *
- * @ORM\Entity(repositoryClass="RPGBundle\Repository\GameRepository"
+ * @ORM\Entity(repositoryClass="RPGBundle\Repository\GameRepository")
  * @ORM\Table(name="game")
  */
 class Game

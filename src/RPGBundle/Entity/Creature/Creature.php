@@ -13,6 +13,15 @@ abstract class Creature
 {
     protected $name;
     protected $description;
+    protected $health;
+
+    /**
+     * @return mixed
+     */
+    public function getHealth()
+    {
+        return $this->health;
+    }
 
     /**
      * @return mixed

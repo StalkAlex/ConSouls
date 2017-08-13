@@ -11,5 +11,5 @@ namespace RPGBundle\Entity\Creature;
 
 class Hero extends Creature
 {
-    private $stamina;
+    protected $stamina;
 }

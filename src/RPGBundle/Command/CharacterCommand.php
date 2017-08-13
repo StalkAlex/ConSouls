@@ -9,21 +9,41 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * Class GameCommand
  */
 class CharacterCommand extends ContainerAwareCommand
 {
+    /** @var CreatureService $creatureService */
+    private $creatureService;
+    /** @var ProfileService $profileService */
+    private $profileService;
 
     /**
      * @return void
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function configure()
     {
         $this
-            ->setName('rpg_challenge:create_game_user')
-            ->setDescription('Create character for a game');
+            ->setName('rpg:create_profile')
+            ->setDescription('Create your profile choosing name and character class');
+
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
+     * @throws \LogicException
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->creatureService = $this->getContainer()->get('rpg.creature');
+        $this->profileService = $this->getContainer()->get('rpg.profile');
     }
 
     /**
@@ -31,36 +51,50 @@ class CharacterCommand extends ContainerAwareCommand
      * @param OutputInterface $output
      *
      * @return void
+     * @throws \Symfony\Component\Console\Exception\LogicException
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var CreatureService $creatureService */
-        $creatureService = $this->get('creature');
-        /** @var ProfileService $profileService */
-        $profileService = $this->get('profile');
         $output->writeln([
             'User Creator',
             '============',
             '',
         ]);
-        $output->writeln('Username: ' . $input->getArgument('username'));
+        $helper = $this->getHelper('question');
+        $question = new Question(
+            "Please enter profile name or random generated will be used: \n",
+            'anonym' . uniqid()
+        );
+        $name = $helper->ask($input, $output, $question);
+        $output->writeln('Username: ' . $name);
+
         $output->writeln([
-            'CharacterChooser',
-            '============',
+            'Character Chooser',
+            '=================',
             '',
         ]);
-        $helper = $this->getHelper('question');
-        $heroes = $creatureService->GetAvailableHeroes();
-        $question = new ChoiceQuestion(
-            'Please select your hero)',
-            array_map(function(Hero $hero) {
-                return $hero->getName();
-            }, $heroes),
+        $choice = new ChoiceQuestion(
+            'Please select your hero:',
+            $this->getHeroList(),
             0
         );
-        $question->setErrorMessage('Choice is invalid');
-        $heroName = $helper->ask($input, $output, $question);
+        $choice->setErrorMessage('Choice is invalid');
+        $heroName = $helper->ask($input, $output, $choice);
         $output->writeln('You have just selected: ' . $heroName);
 
+        $this->profileService->createProfile($name, $heroName);
+        $output->writeln('Your profile successfully created!');
+    }
+
+    /**
+     * @return array
+     */
+    private function getHeroList()
+    {
+        $heroes = $this->creatureService->GetAvailableHeroes();
+        return array_map(function (Hero $hero) {
+            return $hero->getName();
+        }, $heroes);
     }
 }

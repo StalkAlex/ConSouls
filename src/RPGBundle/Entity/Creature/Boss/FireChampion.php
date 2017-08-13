@@ -1,0 +1,19 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: stalk
+ * Date: 13.08.2017
+ * Time: 22:12
+ */
+
+namespace RPGBundle\Entity\Creature\Boss;
+
+
+use RPGBundle\Entity\Creature\Boss;
+
+class FireChampion extends Boss
+{
+    protected $experienceCost = 100;
+    protected $name = 'Fire Champion';
+    protected $description = 'Great champion of fire';
+}
