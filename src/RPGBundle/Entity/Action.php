@@ -1,51 +1,25 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: stalk
- * Date: 11.08.2017
- * Time: 20:35
+ * User: AlexandrAboimov
+ * Date: 14.08.2017
+ * Time: 10:47
  */
 
-namespace RPGBundle\Entity;
+namespace RPGBundle;
 
 
 abstract class Action
 {
-    protected $isRollable;
-    protected $isBlockable;
-    protected $damage;
-    protected $sound;
+    protected $code;
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getIsRollable()
+    public function getCode()
     {
-        return $this->isRollable;
+        return $this->code;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIsBlockable()
-    {
-        return $this->isBlockable;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDamage()
-    {
-        return $this->damage;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSound()
-    {
-        return $this->sound;
-    }
 
 }

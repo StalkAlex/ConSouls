@@ -2,14 +2,16 @@
 
 namespace RPGBundle\Command;
 
+use RPGBundle\Entity\Creature\Boss;
+use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Service\CreatureService;
+use RPGBundle\Service\GameService;
 use RPGBundle\Service\ProfileService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\Question;
 
 /**
  * Class GameCommand
@@ -20,6 +22,12 @@ class GameCommand extends ContainerAwareCommand
     private $creatureService;
     /** @var  ProfileService $profileService */
     private $profileService;
+    /** @var GameService $gameService */
+    private $gameService;
+    /** @var  InputInterface $input */
+    private $input;
+    /** @var  OutputInterface $output */
+    private $output;
 
     /**
      * @return void
@@ -35,6 +43,9 @@ class GameCommand extends ContainerAwareCommand
     {
         $this->creatureService = $this->getContainer()->get('rpg.creature');
         $this->profileService = $this->getContainer()->get('rpg.profile');
+        $this->gameService = $this->getContainer()->get('rpg.game');
+        $this->input = $input;
+        $this->output = $output;
     }
 
     /**
@@ -45,8 +56,17 @@ class GameCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->showWelcome();
+        $profile = $this->profileBlock();
+        $this->showProfileStats($profile);
+        list($boss, $hero) = $this->initializeGame($profile);
+        $this->processGame($boss, $hero);
+    }
+
+    private function profileBlock()
+    {
         $helper = $this->getHelper('question');
-        $output->writeln([
+        $this->output->writeln([
             'Profile chooser',
             '===============',
             '',
@@ -57,26 +77,62 @@ class GameCommand extends ContainerAwareCommand
             0
         );
         $choice->setErrorMessage('Choice is invalid');
-        $profileName = $helper->ask($input, $output, $choice);
-        $profile = $this->profileService->getProfile($profileName);
-        $this->showProfileStats($profile, $output);
-        $output->writeln([
+        $profileName = $helper->ask($this->input, $this->output, $choice);
+        return $this->profileService->getProfile($profileName);
+    }
+
+    private function initializeGame(Profile $profile)
+    {
+        $this->output->writeln([
             'Game starting...',
             '================',
             '',
         ]);
         $hero = $this->creatureService->getHero($profile->getHeroName());
         $boss = $this->creatureService->getBoss();
-        $output->writeln([
+        $this->output->writeln([
             'You\'re about to fight with ' . $boss->getName() . '-' . $boss->getDescription(),
-            '================',
+            '============================',
             '',
         ]);
-        while(true) {
-            
+        return [ $boss, $hero ];
+    }
+
+    private function processGame(Boss $boss, Hero $hero)
+    {
+        $helper = $this->getHelper('question');
+        while (true) {
+            $attackAction = $this->gameService->getBossAttack($boss);
+            $this->output->writeln([
+                'Boss attacking...',
+                '=================',
+                'Listen carefully and be prepared!',
+                'Boss: ' . $attackAction->getSound(),
+                ''
+            ]);
+            //ask def action
+            $choice = new ChoiceQuestion(
+                'What will you do, valiant warrior?',
+                $this->getHeroActions(),
+                0
+            );
+            $choice->setErrorMessage('Choice is invalid');
+            $actionName = $helper->ask($this->input, $this->output, $choice);
+            //update stats using damage count strategy
+            if ($hero->getHealth() <= 0) {
+                $this->showFail();
+                break;
+            }
+            if ($boss->getHealth() <= 0) {
+                $this->showSuccess();
+                break;
+            }
         }
     }
 
+    /**
+     * @return array
+     */
     private function getProfilesList()
     {
         $names = $this->profileService->getProfiles();
@@ -85,9 +141,16 @@ class GameCommand extends ContainerAwareCommand
         }, $names);
     }
 
-    private function showProfileStats(Profile $profile, OutputInterface $output)
+    private function getHeroActions()
     {
-        $output->writeln([
+    }
+
+    /**
+     * @param Profile $profile
+     */
+    private function showProfileStats(Profile $profile)
+    {
+        $this->output->writeln([
             'Profile statistic',
             '=================',
             '',
@@ -95,4 +158,36 @@ class GameCommand extends ContainerAwareCommand
             'Experience: ' . $profile->getExperience(),
         ]);
     }
+
+    private function showWelcome()
+    {
+        $this->output->writeln([
+            'Welcome to hardcore game "ConSouls"',
+            '===================================',
+            'Fight with bosses and save light of The World or...',
+            '...you can destroy it... forever',
+        ]);
+    }
+
+    private function showFail()
+    {
+        $this->output->writeln([
+            'You died...',
+            '===========',
+            '',
+            'Please try again.'
+        ]);
+    }
+
+    private function showSuccess()
+    {
+        $this->output->writeln([
+            'You\'ve won!',
+            '============',
+            '',
+            'Your destiny awaits you.',
+            'You can create another profile and play again as in this demo version lives only one boss',
+        ]);
+    }
+
 }

@@ -13,6 +13,11 @@ class Boss extends Creature
 {
     protected $experienceCost;
 
+    public function __construct(array $actions)
+    {
+        $this->actions = $actions;
+    }
+
     /**
      * @return mixed
      */

@@ -12,6 +12,7 @@ services:
 
     rpg.game:
       class: RPGBundle\Service\GameService
+      autowire: true
 
     rpg.profile:
       class: RPGBundle\Service\ProfileService

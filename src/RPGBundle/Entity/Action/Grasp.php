@@ -9,12 +9,13 @@
 namespace RPGBundle\Entity\Action;
 
 
-use RPGBundle\Entity\Action;
+use RPGBundle\Entity\AttackAction;
 
-class Grasp extends Action
+class Grasp extends AttackAction
 {
     protected $damage = 60;
     protected $isBlockable = false;
     protected $isRollable = true;
     protected $sound = 'Grrrrr';
+    protected $code = 'grasp';
 }

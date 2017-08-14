@@ -9,12 +9,13 @@
 namespace RPGBundle\Entity\Action;
 
 
-use RPGBundle\Entity\Action;
+use RPGBundle\Entity\AttackAction;
 
-class SwordAttack extends Action
+class SwordAttack extends AttackAction
 {
     protected $damage = 40;
     protected $isRollable = true;
     protected $isBlockable = true;
     protected $sound = 'Arghhh';
+    protected $code = 'swordAttack';
 }

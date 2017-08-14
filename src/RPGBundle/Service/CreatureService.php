@@ -31,4 +31,9 @@ class CreatureService
     {
         return $this->creatureFactory->createHero($name);
     }
+
+    public function getBoss()
+    {
+        return $this->creatureFactory->createBoss();
+    }
 }

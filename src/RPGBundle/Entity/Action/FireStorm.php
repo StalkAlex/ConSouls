@@ -9,13 +9,14 @@
 namespace RPGBundle\Entity\Action;
 
 
-use RPGBundle\Entity\Action;
+use RPGBundle\Entity\AttackAction;
 
-class FireStorm extends Action
+class FireStorm extends AttackAction
 {
     protected $damage = 100;
     protected $isBlockable = false;
     protected $isRollable = false;
     protected $sound = 'Bams!';
+    protected $code = 'fireStorm';
 
 }

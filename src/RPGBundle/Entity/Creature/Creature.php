@@ -14,6 +14,7 @@ abstract class Creature
     protected $name;
     protected $description;
     protected $health;
+    protected $actions = [];
 
     /**
      * @return mixed
@@ -39,6 +40,12 @@ abstract class Creature
         return $this->description;
     }
 
-
+    /**
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
 
 }

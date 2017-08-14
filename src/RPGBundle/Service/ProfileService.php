@@ -43,6 +43,10 @@ class ProfileService
         return $this->manager->getRepository('RPGBundle:Profile')->findAll();
     }
 
+    /**
+     * @param string $name
+     * @return null|object
+     */
     public function getProfile(string $name)
     {
         return $this->manager->getRepository('RPGBundle:Profile')->findOneBy(['name' => $name]);
