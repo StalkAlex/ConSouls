@@ -25,5 +25,4 @@ class Hero extends Creature
     {
         return $this->stamina;
     }
-
 }

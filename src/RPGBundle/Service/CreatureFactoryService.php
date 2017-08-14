@@ -15,6 +15,7 @@ use RPGBundle\Entity\Action\Roll;
 use RPGBundle\Entity\Action\Shield;
 use RPGBundle\Entity\Action\SwordAttack;
 use RPGBundle\Entity\Creature\Boss\FireChampion;
+use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Creature\Knight;
 use RPGBundle\Entity\Creature\Mage;
 use RPGBundle\Exception\CreatureNotFoundException;
@@ -24,16 +25,17 @@ class CreatureFactoryService implements ICreatureFactory
 
     /**
      * @param string $name
-     * @return Knight|Mage
+     * @param array $actions
+     * @return Hero
      * @throws CreatureNotFoundException
      */
-    public function createHero(string $name)
+    public function createHero(string $name, array $actions)
     {
         switch ($name) {
             case 'Knight':
-                return new Knight($this->getDefaultHeroActions());
+                return new Knight($actions);
             case 'Mage':
-                return new Mage($this->getDefaultHeroActions());
+                return new Mage($actions);
             default:
                 throw new CreatureNotFoundException('Creature not found: ' . $name);
         }
@@ -43,31 +45,12 @@ class CreatureFactoryService implements ICreatureFactory
      * Now it will return one exact boss then logic could become more complicated
      * @return FireChampion
      */
-    public function createBoss(string $name)
+    public function createBoss()
     {
         return new FireChampion([
             new Grasp(),
             new SwordAttack(),
             new FireStorm()
         ]);
-    }
-
-    /**
-     * Returns all available heroes in the game.
-     * For a simplicity it will return hardcoded instance, later it could be configured outside
-     * @return array
-     */
-    public function getHeroes()
-    {
-        return [
-            new Knight($this->getDefaultHeroActions()),
-            new Mage($this->getDefaultHeroActions())
-        ];
-
-    }
-
-    protected function getDefaultHeroActions()
-    {
-        return [new Roll(), new Shield()];
     }
 }

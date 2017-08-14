@@ -14,7 +14,16 @@ abstract class Creature
     protected $name;
     protected $description;
     protected $health;
+    protected $damage;
     protected $actions = [];
+
+    /**
+     * @param mixed $health
+     */
+    public function setHealth($health)
+    {
+        $this->health = $health;
+    }
 
     /**
      * @return mixed
@@ -38,6 +47,14 @@ abstract class Creature
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDamage()
+    {
+        return $this->damage;
     }
 
     /**

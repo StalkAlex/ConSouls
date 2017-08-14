@@ -9,9 +9,13 @@
 namespace RPGBundle\Domain;
 
 
+use RPGBundle\Action;
+use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
+use RPGBundle\Entity\Creature\Hero;
 
 interface IAttackStrategy
 {
     public function getNextAction(Boss $boss);
+    public function calculate(Boss $boss, Hero $hero, AttackAction $attack, Action $defense);
 }

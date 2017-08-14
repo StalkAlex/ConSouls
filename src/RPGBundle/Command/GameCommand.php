@@ -2,9 +2,11 @@
 
 namespace RPGBundle\Command;
 
+use RPGBundle\Action;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
+use RPGBundle\Service\ActionService;
 use RPGBundle\Service\CreatureService;
 use RPGBundle\Service\GameService;
 use RPGBundle\Service\ProfileService;
@@ -18,12 +20,12 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
  */
 class GameCommand extends ContainerAwareCommand
 {
-    /** @var  CreatureService $creatureService */
-    private $creatureService;
     /** @var  ProfileService $profileService */
     private $profileService;
     /** @var GameService $gameService */
     private $gameService;
+    /** @var  ActionService $actionService */
+    private $actionService;
     /** @var  InputInterface $input */
     private $input;
     /** @var  OutputInterface $output */
@@ -41,7 +43,6 @@ class GameCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->creatureService = $this->getContainer()->get('rpg.creature');
         $this->profileService = $this->getContainer()->get('rpg.profile');
         $this->gameService = $this->getContainer()->get('rpg.game');
         $this->input = $input;
@@ -88,8 +89,8 @@ class GameCommand extends ContainerAwareCommand
             '================',
             '',
         ]);
-        $hero = $this->creatureService->getHero($profile->getHeroName());
-        $boss = $this->creatureService->getBoss();
+        $hero = $this->gameService->getHero($profile->getHeroName());
+        $boss = $this->gameService->getBoss();
         $this->output->writeln([
             'You\'re about to fight with ' . $boss->getName() . '-' . $boss->getDescription(),
             '============================',
@@ -98,7 +99,7 @@ class GameCommand extends ContainerAwareCommand
         return [ $boss, $hero ];
     }
 
-    private function processGame(Boss $boss, Hero $hero)
+    private function processGame(Boss $boss, Hero $hero, Profile $profile)
     {
         $helper = $this->getHelper('question');
         while (true) {
@@ -117,7 +118,10 @@ class GameCommand extends ContainerAwareCommand
                 0
             );
             $choice->setErrorMessage('Choice is invalid');
-            $actionName = $helper->ask($this->input, $this->output, $choice);
+            $actionCode = $helper->ask($this->input, $this->output, $choice);
+            $defenseAction = $this->actionService->getAction($actionCode);
+            $this->gameService->attackCalculation($boss, $hero, $attackAction, $defenseAction);
+            $this->showGameStats();
             //update stats using damage count strategy
             if ($hero->getHealth() <= 0) {
                 $this->showFail();
@@ -141,8 +145,15 @@ class GameCommand extends ContainerAwareCommand
         }, $names);
     }
 
+    /**
+     * @return array
+     */
     private function getHeroActions()
     {
+        $codes = $this->gameService->getHeroActions();
+        return array_map(function (Action $action) {
+            return $action->getCode();
+        }, $codes);
     }
 
     /**
@@ -151,7 +162,7 @@ class GameCommand extends ContainerAwareCommand
     private function showProfileStats(Profile $profile)
     {
         $this->output->writeln([
-            'Profile statistic',
+            'Profile statistics',
             '=================',
             '',
             'Level: ' . $profile->getLevel(),

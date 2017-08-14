@@ -14,6 +14,7 @@ use RPGBundle\Entity\Creature\Boss;
 class FireChampion extends Boss
 {
     protected $experienceCost = 100;
+    protected $damage = 45;
     protected $name = 'Fire Champion';
     protected $description = 'Great champion of fire';
 }

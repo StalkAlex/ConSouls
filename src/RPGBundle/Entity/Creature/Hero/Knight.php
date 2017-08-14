@@ -15,5 +15,6 @@ class Knight extends Hero
     protected $description = 'Mighty knight with sword and shield';
     protected $stamina = 100;
     protected $health = 100;
+    protected $damage = 30;
 
 }

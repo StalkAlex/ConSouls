@@ -11,6 +11,6 @@ namespace RPGBundle\Service;
 
 interface ICreatureFactory
 {
-    public function createBoss(string $name);
-    public function createHero(string $name);
+    public function createHero(string $name, array $actions);
+    public function createBoss();
 }

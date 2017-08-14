@@ -3,7 +3,7 @@
 namespace RPGBundle\Command;
 
 use RPGBundle\Entity\Creature\Hero;
-use RPGBundle\Service\CreatureService;
+use RPGBundle\Service\GameService;
 use RPGBundle\Service\ProfileService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,8 +16,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class CharacterCommand extends ContainerAwareCommand
 {
-    /** @var CreatureService $creatureService */
-    private $creatureService;
+    /** @var GameService $creatureService */
+    private $gameService;
     /** @var ProfileService $profileService */
     private $profileService;
 
@@ -42,7 +42,7 @@ class CharacterCommand extends ContainerAwareCommand
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->creatureService = $this->getContainer()->get('rpg.creature');
+        $this->gameService = $this->getContainer()->get('rpg.game');
         $this->profileService = $this->getContainer()->get('rpg.profile');
     }
 
@@ -92,7 +92,7 @@ class CharacterCommand extends ContainerAwareCommand
      */
     private function getHeroList()
     {
-        $heroes = $this->creatureService->GetAvailableHeroes();
+        $heroes = $this->gameService->getAvailableHeroes();
         return array_map(function (Hero $hero) {
             return $hero->getName();
         }, $heroes);
