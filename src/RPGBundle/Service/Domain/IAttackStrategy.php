@@ -6,10 +6,10 @@
  * Time: 16:18
  */
 
-namespace RPGBundle\Domain;
+namespace RPGBundle\Service\Domain;
 
 
-use RPGBundle\Action;
+use RPGBundle\Entity\Action;
 use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;

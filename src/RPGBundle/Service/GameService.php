@@ -9,12 +9,15 @@
 namespace RPGBundle\Service;
 
 
-use RPGBundle\Action;
-use RPGBundle\Domain\IAttackStrategy;
+use Doctrine\ORM\EntityManager;
+use RPGBundle\Entity\Action;
 use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
+use RPGBundle\Entity\Profile;
 use RPGBundle\Exception\NoActionDefinedException;
+use RPGBundle\Service\Domain\IAttackStrategy;
+use RPGBundle\Service\Domain\ICreatureFactory;
 
 class GameService
 {
@@ -24,15 +27,19 @@ class GameService
     private $creatureFactory;
     /** @var  ActionService $actionService */
     private $actionService;
+    /** @var  EntityManager $manager */
+    private $manager;
 
     public function __construct(
         IAttackStrategy $attackStrategyService,
         ICreatureFactory $creatureFactory,
-        ActionService $actionService )
+        ActionService $actionService,
+        EntityManager $manager)
     {
         $this->attackStrategyService = $attackStrategyService;
         $this->creatureFactory = $creatureFactory;
         $this->actionService = $actionService;
+        $this->manager = $manager;
     }
 
     /**
@@ -99,5 +106,15 @@ class GameService
     public function attackCalculation(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
     {
         $this->attackStrategyService->calculate($boss, $hero, $attack, $defense);
+    }
+
+    public function levelUp(Profile $profile, Boss $boss)
+    {
+        $oldLevel = $profile->getLevel();
+        $profile->setLevel($oldLevel + 1);
+        $oldExperience = $profile->getExperience();
+        $profile->setExperience($oldExperience + $boss->getExperienceCost());
+        $this->manager->persist($profile);
+        $this->manager->flush($profile);
     }
 }

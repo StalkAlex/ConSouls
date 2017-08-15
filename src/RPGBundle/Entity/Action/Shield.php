@@ -9,7 +9,7 @@
 namespace RPGBundle\Entity\Action;
 
 
-use RPGBundle\Action;
+use RPGBundle\Entity\Action;
 
 class Shield extends Action
 {

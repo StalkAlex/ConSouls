@@ -9,7 +9,8 @@
 namespace RPGBundle\Entity\Action;
 
 
-use RPGBundle\Action;
+
+use RPGBundle\Entity\Action;
 
 class Roll extends Action
 {

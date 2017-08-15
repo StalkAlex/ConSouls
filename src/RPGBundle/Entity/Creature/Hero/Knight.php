@@ -6,8 +6,10 @@
  * Time: 19:33
  */
 
-namespace RPGBundle\Entity\Creature;
+namespace RPGBundle\Entity\Creature\Hero;
 
+
+use RPGBundle\Entity\Creature\Hero;
 
 class Knight extends Hero
 {

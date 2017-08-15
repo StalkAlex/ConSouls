@@ -6,7 +6,7 @@
  * Time: 15:18
  */
 
-namespace RPGBundle\Service;
+namespace RPGBundle\Service\Domain;
 
 
 interface ICreatureFactory

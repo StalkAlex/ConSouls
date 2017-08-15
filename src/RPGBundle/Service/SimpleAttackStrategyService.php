@@ -9,15 +9,18 @@
 namespace RPGBundle\Service;
 
 
-use RPGBundle\Action;
-use RPGBundle\Domain\IAttackStrategy;
+use RPGBundle\Entity\Action;
 use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
+use RPGBundle\Entity\Creature\Creature;
 use RPGBundle\Entity\Creature\Hero;
+use RPGBundle\Service\Domain\IAttackStrategy;
 
 /**
- * For MVP we create simple attack strategy that will produce random action for boss attack.
- * Later it could be extended to more complicated based on some boss/hero etc. characteristics
+ * For MVP we create simple attack strategy.
+ * It will produce random actions for boss attacks.
+ * Also it return successful result if player choose roll for rollable boss attack, or shield - for blockable.
+ * Later it could be extended to more complicated logic based on some boss/hero etc. characteristics
  * Class AttackStrategyService
  * @package RPGBundle\Service
  */
@@ -29,11 +32,12 @@ class SimpleAttackStrategyService implements IAttackStrategy
      */
     public function getNextAction(Boss $boss)
     {
-        $action = array_rand($boss->getActions(), 1);
-        if (count($action) > 0) {
-            return $action[0];
+        $actions = $boss->getActions();
+        if (empty($actions)) {
+            return null;
         }
-        return null;
+        $key = array_rand($actions, 1);
+        return $actions[$key];
     }
 
     /**
@@ -45,11 +49,9 @@ class SimpleAttackStrategyService implements IAttackStrategy
     public function calculate(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
     {
         if ($this->isDefenseSuccessful($attack, $defense)) {
-            $newHealth = $boss->getHealth() - $hero->getDamage();
-            $boss->setHealth($newHealth);
+            $this->updateHealth($boss, $hero);
         } else {
-            $newHealth = $hero->getHealth() - $boss->getDamage();
-            $hero->setHealth($newHealth);
+            $this->updateHealth($hero, $boss);
         }
     }
 
@@ -57,5 +59,14 @@ class SimpleAttackStrategyService implements IAttackStrategy
     {
         return ($defense->getCode() === 'roll' && $attack->getIsRollable())
             || ($defense->getCode() === 'shield' && $attack->getIsBlockable());
+    }
+
+    private function updateHealth(Creature $creature1, Creature $creature2)
+    {
+        $newHealth = $creature1->getHealth() - $creature2->getDamage();
+        if ($newHealth < 0) {
+            $newHealth = 0;
+        }
+        $creature1->setHealth($newHealth);
     }
 }

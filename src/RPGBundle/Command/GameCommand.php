@@ -2,18 +2,18 @@
 
 namespace RPGBundle\Command;
 
-use RPGBundle\Action;
+use RPGBundle\Entity\Action;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Service\ActionService;
-use RPGBundle\Service\CreatureService;
 use RPGBundle\Service\GameService;
 use RPGBundle\Service\ProfileService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class GameCommand
@@ -30,6 +30,8 @@ class GameCommand extends ContainerAwareCommand
     private $input;
     /** @var  OutputInterface $output */
     private $output;
+    /** @var  SymfonyStyle $io */
+    private $io;
 
     /**
      * @return void
@@ -45,8 +47,10 @@ class GameCommand extends ContainerAwareCommand
     {
         $this->profileService = $this->getContainer()->get('rpg.profile');
         $this->gameService = $this->getContainer()->get('rpg.game');
+        $this->actionService = $this->getContainer()->get('rpg.action');
         $this->input = $input;
         $this->output = $output;
+        $this->io = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -61,15 +65,18 @@ class GameCommand extends ContainerAwareCommand
         $profile = $this->profileBlock();
         $this->showProfileStats($profile);
         list($boss, $hero) = $this->initializeGame($profile);
-        $this->processGame($boss, $hero);
+        $this->processGame($boss, $hero, $profile);
+        $this->showProfileStats($profile);
     }
 
     private function profileBlock()
     {
         $helper = $this->getHelper('question');
         $this->output->writeln([
+            '<comment>',
             'Profile chooser',
             '===============',
+            '</comment>',
             '',
         ]);
         $choice = new ChoiceQuestion(
@@ -85,15 +92,19 @@ class GameCommand extends ContainerAwareCommand
     private function initializeGame(Profile $profile)
     {
         $this->output->writeln([
+            '<comment>',
             'Game starting...',
             '================',
+            '</comment>',
             '',
         ]);
         $hero = $this->gameService->getHero($profile->getHeroName());
         $boss = $this->gameService->getBoss();
         $this->output->writeln([
+            '<info>',
             'You\'re about to fight with ' . $boss->getName() . '-' . $boss->getDescription(),
             '============================',
+            '</info>',
             '',
         ]);
         return [ $boss, $hero ];
@@ -105,10 +116,12 @@ class GameCommand extends ContainerAwareCommand
         while (true) {
             $attackAction = $this->gameService->getBossAttack($boss);
             $this->output->writeln([
+                '<error>',
                 'Boss attacking...',
                 '=================',
                 'Listen carefully and be prepared!',
                 'Boss: ' . $attackAction->getSound(),
+                '</error>',
                 ''
             ]);
             //ask def action
@@ -120,14 +133,16 @@ class GameCommand extends ContainerAwareCommand
             $choice->setErrorMessage('Choice is invalid');
             $actionCode = $helper->ask($this->input, $this->output, $choice);
             $defenseAction = $this->actionService->getAction($actionCode);
+            $heroBeforeAttack = clone $hero;
             $this->gameService->attackCalculation($boss, $hero, $attackAction, $defenseAction);
-            $this->showGameStats();
+            $this->showGameStats($hero, $boss, $heroBeforeAttack);
             //update stats using damage count strategy
             if ($hero->getHealth() <= 0) {
                 $this->showFail();
                 break;
             }
             if ($boss->getHealth() <= 0) {
+                $this->gameService->levelUp($profile, $boss);
                 $this->showSuccess();
                 break;
             }
@@ -162,42 +177,80 @@ class GameCommand extends ContainerAwareCommand
     private function showProfileStats(Profile $profile)
     {
         $this->output->writeln([
+            '<comment>',
             'Profile statistics',
             '=================',
             '',
             'Level: ' . $profile->getLevel(),
             'Experience: ' . $profile->getExperience(),
+            '</comment>',
+            ''
         ]);
     }
 
     private function showWelcome()
     {
+
         $this->output->writeln([
+            '<question>',
             'Welcome to hardcore game "ConSouls"',
             '===================================',
             'Fight with bosses and save light of The World or...',
             '...you can destroy it... forever',
+            '</question>',
+            '',
         ]);
     }
 
     private function showFail()
     {
         $this->output->writeln([
+            '<error>',
             'You died...',
             '===========',
             '',
-            'Please try again.'
+            'Please try again.',
+            '</error>'
         ]);
     }
 
     private function showSuccess()
     {
         $this->output->writeln([
+            '<info>',
             'You\'ve won!',
             '============',
             '',
             'Your destiny awaits you.',
             'You can create another profile and play again as in this demo version lives only one boss',
+            '</info>',
+        ]);
+    }
+
+    private function showGameStats(Hero $hero, Boss $boss, Hero $heroBeforeAttack)
+    {
+        if ($heroBeforeAttack->getHealth() !== $hero->getHealth()) {
+            $this->output->writeln([
+                '<error>',
+                'You couldn\'t defend yourself this time. Try another action next time.',
+                '</error>',
+                ''
+            ]);
+        } else {
+            $this->output->writeln([
+                '<info>',
+                'You\'ve successfully avoided attack and dealt ' . $hero->getDamage() .' damage!',
+                '</info>',
+                ''
+            ]);
+        }
+        $this->output->writeln([
+            '<comment>',
+            'Fight statistics',
+            '================',
+            'Health Hero/Boss: ' . $hero->getHealth() . '/' . $boss->getHealth(),
+            '</comment>',
+            ''
         ]);
     }
 

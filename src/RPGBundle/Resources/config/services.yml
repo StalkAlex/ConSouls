@@ -6,6 +6,16 @@ services:
     rpg.creature_factory:
       class: RPGBundle\Service\CreatureFactoryService
 
+    rpg.attack_strategy:
+      class: RPGBundle\Service\SimpleAttackStrategyService
+
+    rpg.action:
+      class: RPGBundle\Service\ActionService
+      autowire: true
+
+    rpg.action_factory:
+      class: RPGBundle\Service\ActionFactoryService
+
     rpg.game:
       class: RPGBundle\Service\GameService
       autowire: true
@@ -13,10 +23,6 @@ services:
     rpg.profile:
       class: RPGBundle\Service\ProfileService
       arguments: ['@doctrine.orm.default_entity_manager', '@validator']
-
-    rpg.acion:
-      class: RPGBundle\Service\ActionService
-      autowire: true
 
     default_controller:
       class: RPGBundle\Controller\DefaultController

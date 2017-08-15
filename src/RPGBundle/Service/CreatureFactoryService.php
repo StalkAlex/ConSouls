@@ -11,14 +11,13 @@ namespace RPGBundle\Service;
 
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
-use RPGBundle\Entity\Action\Roll;
-use RPGBundle\Entity\Action\Shield;
 use RPGBundle\Entity\Action\SwordAttack;
 use RPGBundle\Entity\Creature\Boss\FireChampion;
 use RPGBundle\Entity\Creature\Hero;
-use RPGBundle\Entity\Creature\Knight;
-use RPGBundle\Entity\Creature\Mage;
+use RPGBundle\Entity\Creature\Hero\Knight;
+use RPGBundle\Entity\Creature\Hero\Mage;
 use RPGBundle\Exception\CreatureNotFoundException;
+use RPGBundle\Service\Domain\ICreatureFactory;
 
 class CreatureFactoryService implements ICreatureFactory
 {

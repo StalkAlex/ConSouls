@@ -9,8 +9,6 @@
 namespace RPGBundle\Entity;
 
 
-use RPGBundle\Action;
-
 class AttackAction extends Action
 {
     protected $isRollable;

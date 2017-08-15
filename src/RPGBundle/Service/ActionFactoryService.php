@@ -9,13 +9,13 @@
 namespace RPGBundle\Service;
 
 
-use RPGBundle\Domain\IActionFactory;
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
 use RPGBundle\Entity\Action\Roll;
 use RPGBundle\Entity\Action\Shield;
 use RPGBundle\Entity\Action\SwordAttack;
 use RPGBundle\Exception\NoActionDefinedException;
+use RPGBundle\Service\Domain\IActionFactory;
 
 class ActionFactoryService implements IActionFactory
 {

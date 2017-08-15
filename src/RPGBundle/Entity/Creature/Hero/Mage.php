@@ -6,8 +6,10 @@
  * Time: 19:33
  */
 
-namespace RPGBundle\Entity\Creature;
+namespace RPGBundle\Entity\Creature\Hero;
 
+
+use RPGBundle\Entity\Creature\Hero;
 
 class Mage extends Hero
 {
@@ -15,5 +17,5 @@ class Mage extends Hero
     protected $description = 'Mighty wizard';
     protected $stamina = 50;
     protected $health = 100;
-    protected $damage = 25;
+    protected $damage = 30;
 }

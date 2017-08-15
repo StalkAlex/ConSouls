@@ -18,7 +18,7 @@ abstract class Creature
     protected $actions = [];
 
     /**
-     * @param mixed $health
+     * @param int $health
      */
     public function setHealth($health)
     {
@@ -26,7 +26,7 @@ abstract class Creature
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getHealth()
     {
@@ -34,7 +34,7 @@ abstract class Creature
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -42,7 +42,7 @@ abstract class Creature
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDescription()
     {

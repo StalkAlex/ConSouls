@@ -6,7 +6,7 @@
  * Time: 21:10
  */
 
-namespace RPGBundle\Domain;
+namespace RPGBundle\Service\Domain;
 
 
 interface IActionFactory

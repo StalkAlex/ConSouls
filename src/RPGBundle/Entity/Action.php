@@ -6,7 +6,7 @@
  * Time: 10:47
  */
 
-namespace RPGBundle;
+namespace RPGBundle\Entity;
 
 
 abstract class Action

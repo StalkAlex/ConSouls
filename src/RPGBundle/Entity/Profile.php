@@ -45,11 +45,6 @@ class Profile
     private $level;
 
     /**
-     * @ORM\Column(name="deaths_times", type="integer")
-     */
-    private $deathsTimes;
-
-    /**
      * @ORM\Column(name="hero", type="string")
      */
     private $hero;
@@ -129,4 +124,22 @@ class Profile
     {
         return $this->level;
     }
+
+    /**
+     * @param mixed $experience
+     */
+    public function setExperience($experience)
+    {
+        $this->experience = $experience;
+    }
+
+    /**
+     * @param mixed $level
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+    }
+
+
 }

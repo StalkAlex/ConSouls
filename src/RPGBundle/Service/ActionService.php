@@ -9,7 +9,7 @@
 namespace RPGBundle\Service;
 
 
-use RPGBundle\Domain\IActionFactory;
+use RPGBundle\Service\Domain\IActionFactory;
 
 class ActionService
 {
