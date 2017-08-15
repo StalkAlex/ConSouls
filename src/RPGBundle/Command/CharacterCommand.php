@@ -3,8 +3,10 @@
 namespace RPGBundle\Command;
 
 use RPGBundle\Entity\Creature\Hero;
+use RPGBundle\Exception\AbsentProfileException;
 use RPGBundle\Service\GameService;
 use RPGBundle\Service\ProfileService;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,7 +36,7 @@ class CharacterCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface  $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      *
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
@@ -48,16 +50,19 @@ class CharacterCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface  $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      *
      * @return void
      *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \RuntimeException
      * @throws \Symfony\Component\Console\Exception\LogicException
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        //name
         $output->writeln([
             'User Creator',
             '============',
@@ -66,11 +71,20 @@ class CharacterCommand extends ContainerAwareCommand
         $helper = $this->getHelper('question');
         $question = new Question(
             "Please enter profile name or random generated will be used: \n",
-            'anonym'.uniqid()
+            'anonymous-' . uniqid()
         );
+        $question->setValidator(function($answer) {
+            try {
+                if ($this->profileService->getProfile($answer)) {
+                    throw new RuntimeException('This name is already in use. Please try another.');
+                }
+            } catch (AbsentProfileException $ex) {
+            }
+            return $answer;
+        });
         $name = $helper->ask($input, $output, $question);
-        $output->writeln('Username: '.$name);
-
+        $output->writeln('Username: ' . $name);
+        //chacter
         $output->writeln([
             'Character Chooser',
             '=================',
@@ -83,7 +97,7 @@ class CharacterCommand extends ContainerAwareCommand
         );
         $choice->setErrorMessage('Choice is invalid');
         $heroName = $helper->ask($input, $output, $choice);
-        $output->writeln('You have just selected: '.$heroName);
+        $output->writeln('You have just selected: ' . $heroName);
 
         $this->profileService->createProfile($name, $heroName);
         $output->writeln('Your profile successfully created!');

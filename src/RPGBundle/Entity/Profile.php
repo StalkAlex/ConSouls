@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Profile
  *
  * @ORM\Entity(repositoryClass="RPGBundle\Repository\ProfileRepository")
- * @ORM\Table(name="user")
+ * @ORM\Table(name="profile")
  */
 class Profile
 {
@@ -52,7 +52,7 @@ class Profile
     private $hero;
 
     /**
-     * @ORM\OneToMany(targetEntity="Game", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Game", mappedBy="profile")
      */
     private $games;
 
