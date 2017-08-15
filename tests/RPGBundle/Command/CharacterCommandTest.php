@@ -87,7 +87,7 @@ class CharacterCommandTest extends WebTestCase
                 return null;
             });
         static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
-        //then try to register with Tester profile again, it should show us validation error
+        //then try to register with Tester profile, it should show us validation error and ask for another value
         $commandTester = new CommandTester($this->command);
         $commandTester->setInputs(['Tester', 'NewTester', 'Knight']);
         $commandTester->execute([
