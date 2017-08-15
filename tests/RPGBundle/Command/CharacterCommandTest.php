@@ -8,6 +8,7 @@
 
 namespace RPGBundle\Command;
 
+use RPGBundle\Entity\Profile;
 use RPGBundle\Service\ProfileService;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,6 +22,8 @@ class CharacterCommandTest extends WebTestCase
 {
     /** @var  Command $command */
     private $command;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    private $serviceMock;
 
     /**
      * @inheritdoc
@@ -35,26 +38,56 @@ class CharacterCommandTest extends WebTestCase
         $command = $application->find('rpg:create_profile');
         $command->setApplication($application);
         $this->command = $command;
+
+        //mock to not perform actual saving
+        $serviceMock = $this->getMockBuilder(ProfileService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $serviceMock->expects($this->once())
+            ->method('createProfile')
+            ->willReturn(true);
+        $this->serviceMock = $serviceMock;
     }
 
     public function testCreateProfile()
     {
-        $output = $this->createTesterUser();
+        static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
+        $commandTester = new CommandTester($this->command);
+        $commandTester->setInputs(['Tester', 'Knight']);
+        $commandTester->execute([
+            'command' => $this->command->getName(),
+        ]);
+        $output = $commandTester->getDisplay();
         $this->assertContains('successfully created', $output);
     }
 
     public function testCreateAnonymousProfile()
     {
-        $output = $this->createAnonymousUser();
+        static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
+        $commandTester = new CommandTester($this->command);
+        $commandTester->setInputs(['', 'Knight']);
+        $commandTester->execute([
+            'command' => $this->command->getName(),
+        ]);
+        $output = $commandTester->getDisplay();
         $this->assertContains('successfully created', $output);
         $this->assertContains('anonymous', $output);
     }
 
     public function testIfValidationShowsForDuplicateName()
     {
-        //create one user
-        $this->createTesterUser();
-        //then firstly try to create user with registered name
+        //simulate existence of Tester profile
+        $this->serviceMock->expects($this->any())
+            ->method('getProfile')
+            ->willReturnCallback(function ($name) {
+                if ($name === 'Tester') {
+                    return new Profile();
+                }
+                return null;
+            });
+        static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
+        //then try to register with Tester profile again, it should show us validation error
         $commandTester = new CommandTester($this->command);
         $commandTester->setInputs(['Tester', 'NewTester', 'Knight']);
         $commandTester->execute([
@@ -63,33 +96,5 @@ class CharacterCommandTest extends WebTestCase
         $output = $commandTester->getDisplay();
         $this->assertContains('Please try another', $output);
         $this->assertContains('successfully created', $output);
-    }
-
-    public function tearDown()
-    {
-        //cleaning up
-        $entityManager = static::$kernel->getContainer()->get('doctrine.orm.default_entity_manager');
-        $entityManager->createQuery('DELETE FROM RPGBundle:profile')->execute();
-        parent::tearDown();
-    }
-
-    private function createTesterUser()
-    {
-        $commandTester = new CommandTester($this->command);
-        $commandTester->setInputs(['Tester', 'Knight']);
-        $commandTester->execute([
-            'command' => $this->command->getName(),
-        ]);
-        return $commandTester->getDisplay();
-    }
-
-    private function createAnonymousUser()
-    {
-        $commandTester = new CommandTester($this->command);
-        $commandTester->setInputs(['', 'Knight']);
-        $commandTester->execute([
-            'command' => $this->command->getName(),
-        ]);
-        return $commandTester->getDisplay();
     }
 }
