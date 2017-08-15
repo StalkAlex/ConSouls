@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity\Creature\Hero;
 
-
 use RPGBundle\Entity\Creature\Hero;
 
 /**

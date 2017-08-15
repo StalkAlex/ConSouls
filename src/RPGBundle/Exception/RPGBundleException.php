@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Exception;
 
-
 /**
  * Class RPGBundleException
  * @package RPGBundle\Exception

@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Exception;
 
-
 /**
  * Class ProfileValidationException
  * @package RPGBundle\Exception

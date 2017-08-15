@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 use RPGBundle\Entity\Action;
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
@@ -44,8 +43,7 @@ class ActionFactoryService implements IActionFactory
             case 'swordAttack':
                 return new SwordAttack();
             default:
-                throw new NoActionDefinedException('There is no action with this code: ' . $code);
+                throw new NoActionDefinedException('There is no action with this code: '.$code);
         }
     }
-
 }

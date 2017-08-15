@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity\Creature;
 
-
 /**
  * Class Hero
  * @package RPGBundle\Entity\Creature

@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service\Domain;
 
-
 /**
  * Working with creature instances
  * Interface ICreatureFactory

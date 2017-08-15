@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 use RPGBundle\Entity\Action;
 use RPGBundle\Exception\NoActionDefinedException;
 use RPGBundle\Service\Domain\IActionFactory;
@@ -54,7 +53,7 @@ class ActionService
     {
         $action = $this->actionFactory->createAction($code);
         if (!$action) {
-            throw new NoActionDefinedException('There is no action with code ' . $code . ' defined.');
+            throw new NoActionDefinedException('There is no action with code '.$code.' defined.');
         }
         return $action;
     }

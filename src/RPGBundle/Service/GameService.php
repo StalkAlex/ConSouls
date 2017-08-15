@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 use Doctrine\ORM\EntityManager;
 use RPGBundle\Entity\Action;
 use RPGBundle\Entity\AttackAction;
@@ -38,8 +37,9 @@ class GameService
         IAttackStrategy $attackStrategyService,
         ICreatureFactory $creatureFactory,
         ActionService $actionService,
-        EntityManager $manager)
-    {
+        EntityManager $manager
+    ) {
+    
         $this->attackStrategyService = $attackStrategyService;
         $this->creatureFactory = $creatureFactory;
         $this->actionService = $actionService;
@@ -112,10 +112,10 @@ class GameService
      * This function calls strategy service to define whether attack was successful or was avoided,
      * based on this it recalculates player statistics.
      * We can substitute strategy service to change current fight mechanic
-     * @param Boss $boss
-     * @param Hero $hero
+     * @param Boss         $boss
+     * @param Hero         $hero
      * @param AttackAction $attack
-     * @param Action $defense
+     * @param Action       $defense
      */
     public function attackCalculation(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
     {
@@ -125,7 +125,7 @@ class GameService
     /**
      * Called at the end of the fight if player have won
      * @param Profile $profile
-     * @param Boss $boss
+     * @param Boss    $boss
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

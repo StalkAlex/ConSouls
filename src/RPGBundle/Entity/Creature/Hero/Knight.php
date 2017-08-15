@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity\Creature\Hero;
 
-
 use RPGBundle\Entity\Creature\Hero;
 
 /**
@@ -22,5 +21,4 @@ class Knight extends Hero
     protected $stamina = 100;
     protected $health = 100;
     protected $damage = 30;
-
 }

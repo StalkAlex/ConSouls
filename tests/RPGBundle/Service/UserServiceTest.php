@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 class UserServiceTest
 {
 }

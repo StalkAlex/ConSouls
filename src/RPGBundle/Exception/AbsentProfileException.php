@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Exception;
 
-
 /**
  * Class AbsentProfileException
  * @package RPGBundle\Exception

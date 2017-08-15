@@ -102,7 +102,7 @@ class GameCommand extends ContainerAwareCommand
         $boss = $this->gameService->getBoss();
         $this->output->writeln([
             '<info>',
-            'You\'re about to fight with ' . $boss->getName() . '-' . $boss->getDescription(),
+            'You\'re about to fight with '.$boss->getName().'-'.$boss->getDescription(),
             '============================',
             '</info>',
             '',
@@ -120,7 +120,7 @@ class GameCommand extends ContainerAwareCommand
                 'Boss attacking...',
                 '=================',
                 'Listen carefully and be prepared!',
-                'Boss: ' . $attackAction->getSound(),
+                'Boss: '.$attackAction->getSound(),
                 '</error>',
                 ''
             ]);
@@ -181,8 +181,8 @@ class GameCommand extends ContainerAwareCommand
             'Profile statistics',
             '=================',
             '',
-            'Level: ' . $profile->getLevel(),
-            'Experience: ' . $profile->getExperience(),
+            'Level: '.$profile->getLevel(),
+            'Experience: '.$profile->getExperience(),
             '</comment>',
             ''
         ]);
@@ -239,7 +239,7 @@ class GameCommand extends ContainerAwareCommand
         } else {
             $this->output->writeln([
                 '<info>',
-                'You\'ve successfully avoided attack and dealt ' . $hero->getDamage() .' damage!',
+                'You\'ve successfully avoided attack and dealt '.$hero->getDamage().' damage!',
                 '</info>',
                 ''
             ]);
@@ -248,10 +248,9 @@ class GameCommand extends ContainerAwareCommand
             '<comment>',
             'Fight statistics',
             '================',
-            'Health Hero/Boss: ' . $hero->getHealth() . '/' . $boss->getHealth(),
+            'Health Hero/Boss: '.$hero->getHealth().'/'.$boss->getHealth(),
             '</comment>',
             ''
         ]);
     }
-
 }

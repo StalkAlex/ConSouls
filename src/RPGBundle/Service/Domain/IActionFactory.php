@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service\Domain;
 
-
 /**
  * Factory for creating attacking and defending actions in game like roll
  * Interface IActionFactory

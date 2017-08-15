@@ -30,11 +30,10 @@ class CharacterCommand extends ContainerAwareCommand
         $this
             ->setName('rpg:create_profile')
             ->setDescription('Create your profile choosing name and character class');
-
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
@@ -47,7 +46,7 @@ class CharacterCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return void
@@ -64,10 +63,10 @@ class CharacterCommand extends ContainerAwareCommand
         $helper = $this->getHelper('question');
         $question = new Question(
             "Please enter profile name or random generated will be used: \n",
-            'anonym' . uniqid()
+            'anonym'.uniqid()
         );
         $name = $helper->ask($input, $output, $question);
-        $output->writeln('Username: ' . $name);
+        $output->writeln('Username: '.$name);
 
         $output->writeln([
             'Character Chooser',
@@ -81,7 +80,7 @@ class CharacterCommand extends ContainerAwareCommand
         );
         $choice->setErrorMessage('Choice is invalid');
         $heroName = $helper->ask($input, $output, $choice);
-        $output->writeln('You have just selected: ' . $heroName);
+        $output->writeln('You have just selected: '.$heroName);
 
         $this->profileService->createProfile($name, $heroName);
         $output->writeln('Your profile successfully created!');

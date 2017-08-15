@@ -67,5 +67,4 @@ abstract class Creature
     {
         return $this->actions;
     }
-
 }

@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 use Doctrine\ORM\EntityManager;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Exception\AbsentProfileException;
@@ -25,7 +24,7 @@ class ProfileService
 
     /**
      * ProfileService constructor.
-     * @param EntityManager $manager
+     * @param EntityManager      $manager
      * @param RecursiveValidator $validator
      */
     public function __construct(EntityManager $manager, RecursiveValidator $validator)
@@ -78,9 +77,8 @@ class ProfileService
     {
         $profile = $this->manager->getRepository('RPGBundle:Profile')->findOneBy(['name' => $name]);
         if (!$profile) {
-            throw new AbsentProfileException('There is no profile with this name ' . $name);
+            throw new AbsentProfileException('There is no profile with this name '.$name);
         }
         return $profile;
     }
-
 }

@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity;
 
-
 /**
  * Class AttackAction
  * @package RPGBundle\Entity
@@ -51,5 +50,4 @@ class AttackAction extends Action
     {
         return $this->sound;
     }
-
 }

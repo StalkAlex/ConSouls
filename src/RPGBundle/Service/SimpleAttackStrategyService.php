@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 use RPGBundle\Entity\Action;
 use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
@@ -45,10 +44,10 @@ class SimpleAttackStrategyService implements IAttackStrategy
 
     /**
      * Recalculates player statistics whether attack was successful or not.
-     * @param Boss $boss
-     * @param Hero $hero
+     * @param Boss         $boss
+     * @param Hero         $hero
      * @param AttackAction $attack
-     * @param Action $defense
+     * @param Action       $defense
      */
     public function calculate(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
     {
@@ -61,7 +60,7 @@ class SimpleAttackStrategyService implements IAttackStrategy
 
     /**
      * @param AttackAction $attack
-     * @param Action $defense
+     * @param Action       $defense
      * @return bool
      */
     private function isDefenseSuccessful(AttackAction $attack, Action $defense)

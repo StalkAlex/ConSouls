@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,5 +37,4 @@ class Game
     {
         return $this->id;
     }
-
 }

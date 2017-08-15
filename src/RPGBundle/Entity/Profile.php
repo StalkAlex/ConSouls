@@ -144,6 +144,4 @@ class Profile
     {
         $this->level = $level;
     }
-
-
 }

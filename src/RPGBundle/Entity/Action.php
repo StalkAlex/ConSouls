@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity;
 
-
 /**
  * Class Action
  * @package RPGBundle\Entity
@@ -24,6 +23,4 @@ abstract class Action
     {
         return $this->code;
     }
-
-
 }

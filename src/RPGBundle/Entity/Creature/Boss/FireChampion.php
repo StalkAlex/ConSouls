@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity\Creature\Boss;
 
-
 use RPGBundle\Entity\Creature\Boss;
 
 /**

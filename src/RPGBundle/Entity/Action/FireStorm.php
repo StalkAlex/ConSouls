@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity\Action;
 
-
 use RPGBundle\Entity\AttackAction;
 
 /**
@@ -22,5 +21,4 @@ class FireStorm extends AttackAction
     protected $isRollable = false;
     protected $sound = 'Bams!';
     protected $code = 'fireStorm';
-
 }

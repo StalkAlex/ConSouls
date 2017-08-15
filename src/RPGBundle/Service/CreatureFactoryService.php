@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service;
 
-
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
 use RPGBundle\Entity\Action\SwordAttack;
@@ -29,7 +28,7 @@ class CreatureFactoryService implements ICreatureFactory
 
     /**
      * @param string $name
-     * @param array $actions
+     * @param array  $actions
      * @return Hero
      * @throws CreatureNotFoundException
      */
@@ -41,7 +40,7 @@ class CreatureFactoryService implements ICreatureFactory
             case 'Mage':
                 return new Mage($actions);
             default:
-                throw new CreatureNotFoundException('Creature not found: ' . $name);
+                throw new CreatureNotFoundException('Creature not found: '.$name);
         }
     }
 

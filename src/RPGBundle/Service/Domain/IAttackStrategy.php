@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Service\Domain;
 
-
 use RPGBundle\Entity\Action;
 use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
