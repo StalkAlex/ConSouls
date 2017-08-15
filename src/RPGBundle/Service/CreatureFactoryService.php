@@ -17,18 +17,20 @@ use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Creature\Hero\Knight;
 use RPGBundle\Entity\Creature\Hero\Mage;
 use RPGBundle\Exception\CreatureNotFoundException;
-use RPGBundle\Service\Domain\InterfaceCreatureFactory;
+use RPGBundle\Service\Domain\CreatureFactoryInterface;
 
 /**
  * Class CreatureFactoryService
  */
-class CreatureFactoryService implements InterfaceCreatureFactory
+class CreatureFactoryService implements CreatureFactoryInterface
 {
 
     /**
      * @param string $name
      * @param array  $actions
+     *
      * @return Hero
+     *
      * @throws CreatureNotFoundException
      */
     public function createHero(string $name, array $actions)

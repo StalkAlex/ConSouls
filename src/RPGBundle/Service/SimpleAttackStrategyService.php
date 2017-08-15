@@ -13,7 +13,8 @@ use RPGBundle\Entity\Action\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\AbstractCreature;
 use RPGBundle\Entity\Creature\Hero;
-use RPGBundle\Service\Domain\InterfaceAttackStrategy;
+use RPGBundle\Exception\CharacterInsufficientActionException;
+use RPGBundle\Service\Domain\AttackStrategyInterface;
 
 /**
  * For MVP we create simple attack strategy.
@@ -22,7 +23,7 @@ use RPGBundle\Service\Domain\InterfaceAttackStrategy;
  * Later it could be extended to more complicated logic based on some boss/hero etc. characteristics
  * Class AttackStrategyService
  */
-class SimpleAttackStrategyService implements InterfaceAttackStrategy
+class SimpleAttackStrategyService implements AttackStrategyInterface
 {
     /**
      * Returns next attack for boss during fight process.
@@ -30,25 +31,29 @@ class SimpleAttackStrategyService implements InterfaceAttackStrategy
      * For MVP simplicity it will return random action.
      *
      * @param Boss $boss
-     * @return null|AttackAction
+     *
+     * @return AttackAction
+     *
+     * @throws CharacterInsufficientActionException
      */
     public function getNextAction(Boss $boss)
     {
         $actions = $boss->getActions();
         if (empty($actions)) {
-            return null;
+            throw new CharacterInsufficientActionException(sprintf('Boss doesn\'t have actions to perform', $boss->getName()));
         }
         $key = array_rand($actions, 1);
+
         return $actions[$key];
     }
 
     /**
      * Recalculates player statistics whether attack was successful or not.
      *
-     * @param Boss         $boss
-     * @param Hero         $hero
-     * @param AttackAction $attack
-     * @param AbstractAction       $defense
+     * @param Boss           $boss
+     * @param Hero           $hero
+     * @param AttackAction   $attack
+     * @param AbstractAction $defense
      */
     public function calculate(Boss $boss, Hero $hero, AttackAction $attack, AbstractAction $defense)
     {
@@ -60,8 +65,9 @@ class SimpleAttackStrategyService implements InterfaceAttackStrategy
     }
 
     /**
-     * @param AttackAction $attack
-     * @param AbstractAction       $defense
+     * @param AttackAction   $attack
+     * @param AbstractAction $defense
+     *
      * @return bool
      */
     private function isDefenseSuccessful(AttackAction $attack, AbstractAction $defense)

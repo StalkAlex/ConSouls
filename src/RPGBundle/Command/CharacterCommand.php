@@ -23,6 +23,7 @@ class CharacterCommand extends ContainerAwareCommand
 
     /**
      * @return void
+     *
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function configure()
@@ -35,6 +36,7 @@ class CharacterCommand extends ContainerAwareCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
      * @throws \LogicException
@@ -50,6 +52,7 @@ class CharacterCommand extends ContainerAwareCommand
      * @param OutputInterface $output
      *
      * @return void
+     *
      * @throws \Symfony\Component\Console\Exception\LogicException
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
@@ -92,6 +95,7 @@ class CharacterCommand extends ContainerAwareCommand
     private function getHeroList()
     {
         $heroes = $this->gameService->getAvailableHeroes();
+
         return array_map(function (Hero $hero) {
             return $hero->getName();
         }, $heroes);

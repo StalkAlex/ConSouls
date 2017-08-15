@@ -15,15 +15,15 @@ use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Exception\NoActionDefinedException;
-use RPGBundle\Service\Domain\InterfaceAttackStrategy;
-use RPGBundle\Service\Domain\InterfaceCreatureFactory;
+use RPGBundle\Service\Domain\AttackStrategyInterface;
+use RPGBundle\Service\Domain\CreatureFactoryInterface;
 
 /**
  * Class GameService
  */
 class GameService
 {
-    /** @var  InterfaceAttackStrategy */
+    /** @var  AttackStrategyInterface */
     private $attackStrategyService;
     /** @var CreatureFactoryService $creatureFactory */
     private $creatureFactory;
@@ -35,12 +35,12 @@ class GameService
     /**
      * GameService constructor.
      *
-     * @param InterfaceAttackStrategy $attackStrategyService
-     * @param InterfaceCreatureFactory $creatureFactory
-     * @param ActionService $actionService
-     * @param EntityManager $manager
+     * @param AttackStrategyInterface  $attackStrategyService
+     * @param CreatureFactoryInterface $creatureFactory
+     * @param ActionService            $actionService
+     * @param EntityManager            $manager
      */
-    public function __construct(InterfaceAttackStrategy $attackStrategyService, InterfaceCreatureFactory $creatureFactory, ActionService $actionService, EntityManager $manager )
+    public function __construct(AttackStrategyInterface $attackStrategyService, CreatureFactoryInterface $creatureFactory, ActionService $actionService, EntityManager $manager)
     {
         $this->attackStrategyService = $attackStrategyService;
         $this->creatureFactory = $creatureFactory;
@@ -58,12 +58,13 @@ class GameService
     {
         return [
             $this->getHero('Knight'),
-            $this->getHero('Mage')
+            $this->getHero('Mage'),
         ];
     }
 
     /**
      * @return array
+     *
      * @throws \RPGBundle\Exception\NoActionDefinedException
      */
     public function getHeroActions()
@@ -73,6 +74,7 @@ class GameService
 
     /**
      * @param string $name
+     *
      * @return Hero
      */
     public function getHero(string $name)
@@ -82,6 +84,7 @@ class GameService
 
     /**
      * @param string $code
+     *
      * @return AbstractAction
      */
     public function getAction(string $code)
@@ -99,7 +102,9 @@ class GameService
 
     /**
      * @param Boss $boss
+     *
      * @return AttackAction
+     *
      * @throws NoActionDefinedException
      */
     public function getBossAttack(Boss $boss)
@@ -108,6 +113,7 @@ class GameService
         if (!$action) {
             throw new NoActionDefinedException('There are no defined actions for boss instance');
         }
+
         return $action;
     }
 
@@ -116,10 +122,10 @@ class GameService
      * based on this it recalculates player statistics.
      * We can substitute strategy service to change current fight mechanic
      *
-     * @param Boss         $boss
-     * @param Hero         $hero
-     * @param AttackAction $attack
-     * @param AbstractAction       $defense
+     * @param Boss           $boss
+     * @param Hero           $hero
+     * @param AttackAction   $attack
+     * @param AbstractAction $defense
      */
     public function attackCalculation(Boss $boss, Hero $hero, AttackAction $attack, AbstractAction $defense)
     {
@@ -131,6 +137,7 @@ class GameService
      *
      * @param Profile $profile
      * @param Boss    $boss
+     *
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

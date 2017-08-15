@@ -2,7 +2,7 @@
 
 namespace RPGBundle\Command;
 
-use RPGBundle\Entity\AbstractAction;
+use RPGBundle\Entity\Action\AbstractAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
@@ -43,6 +43,10 @@ class GameCommand extends ContainerAwareCommand
             ->setDescription('Starts game');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->profileService = $this->getContainer()->get('rpg.profile');
@@ -69,6 +73,9 @@ class GameCommand extends ContainerAwareCommand
         $this->showProfileStats($profile);
     }
 
+    /**
+     * @return Profile
+     */
     private function profileBlock()
     {
         $helper = $this->getHelper('question');
@@ -86,9 +93,15 @@ class GameCommand extends ContainerAwareCommand
         );
         $choice->setErrorMessage('Choice is invalid');
         $profileName = $helper->ask($this->input, $this->output, $choice);
+
         return $this->profileService->getProfile($profileName);
     }
 
+    /**
+     * @param Profile $profile
+     *
+     * @return array
+     */
     private function initializeGame(Profile $profile)
     {
         $this->output->writeln([
@@ -107,9 +120,15 @@ class GameCommand extends ContainerAwareCommand
             '</info>',
             '',
         ]);
+
         return [ $boss, $hero ];
     }
 
+    /**
+     * @param Boss    $boss
+     * @param Hero    $hero
+     * @param Profile $profile
+     */
     private function processGame(Boss $boss, Hero $hero, Profile $profile)
     {
         $helper = $this->getHelper('question');
@@ -122,7 +141,7 @@ class GameCommand extends ContainerAwareCommand
                 'Listen carefully and be prepared!',
                 'Boss: '.$attackAction->getSound(),
                 '</error>',
-                ''
+                '',
             ]);
             //ask def action
             $choice = new ChoiceQuestion(
@@ -155,6 +174,7 @@ class GameCommand extends ContainerAwareCommand
     private function getProfilesList()
     {
         $names = $this->profileService->getProfiles();
+
         return array_map(function (Profile $hero) {
             return $hero->getName();
         }, $names);
@@ -166,6 +186,7 @@ class GameCommand extends ContainerAwareCommand
     private function getHeroActions()
     {
         $codes = $this->gameService->getHeroActions();
+
         return array_map(function (AbstractAction $action) {
             return $action->getCode();
         }, $codes);
@@ -184,10 +205,13 @@ class GameCommand extends ContainerAwareCommand
             'Level: '.$profile->getLevel(),
             'Experience: '.$profile->getExperience(),
             '</comment>',
-            ''
+            '',
         ]);
     }
 
+    /**
+     * Shows welcome block of the game
+     */
     private function showWelcome()
     {
 
@@ -202,6 +226,9 @@ class GameCommand extends ContainerAwareCommand
         ]);
     }
 
+    /**
+     * Shows oin case of player looses
+     */
     private function showFail()
     {
         $this->output->writeln([
@@ -210,10 +237,13 @@ class GameCommand extends ContainerAwareCommand
             '===========',
             '',
             'Please try again.',
-            '</error>'
+            '</error>',
         ]);
     }
 
+    /**
+     * Shows in case of player wins
+     */
     private function showSuccess()
     {
         $this->output->writeln([
@@ -227,6 +257,11 @@ class GameCommand extends ContainerAwareCommand
         ]);
     }
 
+    /**
+     * @param Hero $hero
+     * @param Boss $boss
+     * @param Hero $heroBeforeAttack
+     */
     private function showGameStats(Hero $hero, Boss $boss, Hero $heroBeforeAttack)
     {
         if ($heroBeforeAttack->getHealth() !== $hero->getHealth()) {
@@ -234,14 +269,14 @@ class GameCommand extends ContainerAwareCommand
                 '<error>',
                 'You couldn\'t defend yourself from this attack. Try another action next time.',
                 '</error>',
-                ''
+                '',
             ]);
         } else {
             $this->output->writeln([
                 '<info>',
                 'You\'ve successfully avoided attack and dealt '.$hero->getDamage().' damage!',
                 '</info>',
-                ''
+                '',
             ]);
         }
         $this->output->writeln([
@@ -250,7 +285,7 @@ class GameCommand extends ContainerAwareCommand
             '================',
             'Health Hero/Boss: '.$hero->getHealth().'/'.$boss->getHealth(),
             '</comment>',
-            ''
+            '',
         ]);
     }
 }

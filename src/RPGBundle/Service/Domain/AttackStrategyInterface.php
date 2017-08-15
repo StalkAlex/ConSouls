@@ -15,21 +15,23 @@ use RPGBundle\Entity\Creature\Hero;
 
 /**
  * Main interface for the fight mechanics.
- * Interface InterfaceAttackStrategy
+ * Interface AttackStrategyInterface
  */
-interface InterfaceAttackStrategy
+interface AttackStrategyInterface
 {
     /**
      * @param Boss $boss
+     *
      * @return AttackAction
      */
     public function getNextAction(Boss $boss);
 
     /**
-     * @param Boss $boss
-     * @param Hero $hero
-     * @param AttackAction $attack
+     * @param Boss           $boss
+     * @param Hero           $hero
+     * @param AttackAction   $attack
      * @param AbstractAction $defense
+     *
      * @return void
      */
     public function calculate(Boss $boss, Hero $hero, AttackAction $attack, AbstractAction $defense);

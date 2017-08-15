@@ -15,19 +15,24 @@ use RPGBundle\Entity\Action\Roll;
 use RPGBundle\Entity\Action\Shield;
 use RPGBundle\Entity\Action\SwordAttack;
 use RPGBundle\Exception\NoActionDefinedException;
-use RPGBundle\Service\Domain\InterfaceActionFactory;
+use RPGBundle\Service\Domain\ActionFactoryInterface;
 
 /**
  * Class ActionFactoryService
  */
-class ActionFactoryService implements InterfaceActionFactory
+class ActionFactoryService implements ActionFactoryInterface
 {
     /**
      * Creates action instance by its code
      *
-     * @param $code
+     * @param string $code
+     *
      * @return AbstractAction
+     *
      * @throws NoActionDefinedException
+     *
+     * @internal param $code
+     *
      */
     public function createAction(string $code)
     {

@@ -8,7 +8,6 @@
 
 namespace RPGBundle\Entity\Action;
 
-
 /**
  * Class Shield
  */

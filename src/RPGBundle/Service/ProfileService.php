@@ -38,6 +38,7 @@ class ProfileService
      *
      * @param string $name
      * @param string $heroName
+     *
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -66,6 +67,7 @@ class ProfileService
         if (!$profiles) {
             return [];
         }
+
         return $profiles;
     }
 
@@ -73,7 +75,9 @@ class ProfileService
      * Get profile instance by its name from storage
      *
      * @param string $name
+     *
      * @return Profile
+     *
      * @throws AbsentProfileException
      */
     public function getProfile(string $name)
@@ -82,6 +86,7 @@ class ProfileService
         if (!$profile) {
             throw new AbsentProfileException(sprintf('There is no profile with this name %s', $name));
         }
+
         return $profile;
     }
 }

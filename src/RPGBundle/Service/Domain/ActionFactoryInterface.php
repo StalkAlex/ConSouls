@@ -10,12 +10,13 @@ namespace RPGBundle\Service\Domain;
 
 /**
  * Factory for creating attacking and defending actions in game like roll
- * Interface InterfaceActionFactory
+ * Interface ActionFactoryInterface
  */
-interface InterfaceActionFactory
+interface ActionFactoryInterface
 {
     /**
      * @param string $code
+     *
      * @return mixed
      */
     public function createAction(string $code);
