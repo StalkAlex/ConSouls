@@ -11,6 +11,10 @@ namespace RPGBundle\Entity\Creature\Hero;
 
 use RPGBundle\Entity\Creature\Hero;
 
+/**
+ * Class Knight
+ * @package RPGBundle\Entity\Creature\Hero
+ */
 class Knight extends Hero
 {
     protected $name = 'Knight';

@@ -10,7 +10,7 @@ namespace RPGBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use RPGBundle\Entity\Creature\Hero;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Profile
@@ -30,6 +30,7 @@ class Profile
 
     /**
      * @ORM\Column(name="name", type="string")
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -54,6 +55,9 @@ class Profile
      */
     private $games;
 
+    /**
+     * Profile constructor.
+     */
     public function __construct()
     {
         $this->games = new ArrayCollection();
@@ -62,7 +66,7 @@ class Profile
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -70,7 +74,7 @@ class Profile
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -126,7 +130,7 @@ class Profile
     }
 
     /**
-     * @param mixed $experience
+     * @param int $experience
      */
     public function setExperience($experience)
     {
@@ -134,7 +138,7 @@ class Profile
     }
 
     /**
-     * @param mixed $level
+     * @param int $level
      */
     public function setLevel($level)
     {

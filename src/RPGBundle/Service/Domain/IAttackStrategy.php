@@ -14,6 +14,11 @@ use RPGBundle\Entity\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 
+/**
+ * Main interface for the fight mechanics.
+ * Interface IAttackStrategy
+ * @package RPGBundle\Service\Domain
+ */
 interface IAttackStrategy
 {
     public function getNextAction(Boss $boss);

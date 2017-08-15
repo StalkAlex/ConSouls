@@ -8,6 +8,7 @@
 
 namespace RPGBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**

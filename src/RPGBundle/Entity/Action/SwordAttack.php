@@ -11,6 +11,10 @@ namespace RPGBundle\Entity\Action;
 
 use RPGBundle\Entity\AttackAction;
 
+/**
+ * Class SwordAttack
+ * @package RPGBundle\Entity\Action
+ */
 class SwordAttack extends AttackAction
 {
     protected $damage = 40;

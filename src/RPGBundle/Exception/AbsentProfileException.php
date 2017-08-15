@@ -2,18 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: AlexandrAboimov
- * Date: 14.08.2017
- * Time: 16:34
+ * Date: 15.08.2017
+ * Time: 15:13
  */
 
 namespace RPGBundle\Exception;
 
 
 /**
- * Class NoActionDefinedException
+ * Class AbsentProfileException
  * @package RPGBundle\Exception
  */
-class NoActionDefinedException extends RPGBundleException
+class AbsentProfileException extends RPGBundleException
 {
 
 }

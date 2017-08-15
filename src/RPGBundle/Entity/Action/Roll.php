@@ -12,6 +12,10 @@ namespace RPGBundle\Entity\Action;
 
 use RPGBundle\Entity\Action;
 
+/**
+ * Class Roll
+ * @package RPGBundle\Entity\Action
+ */
 class Roll extends Action
 {
     protected $code = 'roll';

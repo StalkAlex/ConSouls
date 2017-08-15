@@ -11,6 +11,10 @@ namespace RPGBundle\Entity\Action;
 
 use RPGBundle\Entity\Action;
 
+/**
+ * Class Shield
+ * @package RPGBundle\Entity\Action
+ */
 class Shield extends Action
 {
     protected $code = 'shield';

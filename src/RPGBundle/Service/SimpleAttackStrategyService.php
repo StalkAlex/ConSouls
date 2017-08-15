@@ -27,6 +27,9 @@ use RPGBundle\Service\Domain\IAttackStrategy;
 class SimpleAttackStrategyService implements IAttackStrategy
 {
     /**
+     * Returns next attack for boss during fight process.
+     * Normally it supposed to consider some player statistics to make fight more interesting.
+     * For MVP simplicity it will return random action
      * @param Boss $boss
      * @return null|AttackAction
      */
@@ -41,6 +44,7 @@ class SimpleAttackStrategyService implements IAttackStrategy
     }
 
     /**
+     * Recalculates player statistics whether attack was successful or not.
      * @param Boss $boss
      * @param Hero $hero
      * @param AttackAction $attack
@@ -55,12 +59,21 @@ class SimpleAttackStrategyService implements IAttackStrategy
         }
     }
 
+    /**
+     * @param AttackAction $attack
+     * @param Action $defense
+     * @return bool
+     */
     private function isDefenseSuccessful(AttackAction $attack, Action $defense)
     {
         return ($defense->getCode() === 'roll' && $attack->getIsRollable())
             || ($defense->getCode() === 'shield' && $attack->getIsBlockable());
     }
 
+    /**
+     * @param Creature $creature1
+     * @param Creature $creature2
+     */
     private function updateHealth(Creature $creature1, Creature $creature2)
     {
         $newHealth = $creature1->getHealth() - $creature2->getDamage();

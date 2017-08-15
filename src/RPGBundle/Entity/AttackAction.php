@@ -9,6 +9,10 @@
 namespace RPGBundle\Entity;
 
 
+/**
+ * Class AttackAction
+ * @package RPGBundle\Entity
+ */
 class AttackAction extends Action
 {
     protected $isRollable;
@@ -17,7 +21,7 @@ class AttackAction extends Action
     protected $sound;
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function getIsRollable()
     {
@@ -25,7 +29,7 @@ class AttackAction extends Action
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function getIsBlockable()
     {
@@ -33,7 +37,7 @@ class AttackAction extends Action
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getDamage()
     {
@@ -41,7 +45,7 @@ class AttackAction extends Action
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getSound()
     {

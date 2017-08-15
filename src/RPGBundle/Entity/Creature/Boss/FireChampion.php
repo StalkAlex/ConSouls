@@ -11,6 +11,10 @@ namespace RPGBundle\Entity\Creature\Boss;
 
 use RPGBundle\Entity\Creature\Boss;
 
+/**
+ * Class FireChampion
+ * @package RPGBundle\Entity\Creature\Boss
+ */
 class FireChampion extends Boss
 {
     protected $experienceCost = 100;

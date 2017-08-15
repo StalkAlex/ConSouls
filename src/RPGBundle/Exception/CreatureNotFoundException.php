@@ -9,6 +9,10 @@
 namespace RPGBundle\Exception;
 
 
+/**
+ * Class CreatureNotFoundException
+ * @package RPGBundle\Exception
+ */
 class CreatureNotFoundException extends RPGBundleException
 {
 

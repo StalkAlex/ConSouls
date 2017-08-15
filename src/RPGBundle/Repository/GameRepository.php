@@ -10,6 +10,10 @@ namespace RPGBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class GameRepository
+ * @package RPGBundle\Repository
+ */
 class GameRepository extends EntityRepository
 {
 

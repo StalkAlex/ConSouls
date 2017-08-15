@@ -232,7 +232,7 @@ class GameCommand extends ContainerAwareCommand
         if ($heroBeforeAttack->getHealth() !== $hero->getHealth()) {
             $this->output->writeln([
                 '<error>',
-                'You couldn\'t defend yourself this time. Try another action next time.',
+                'You couldn\'t defend yourself from this attack. Try another action next time.',
                 '</error>',
                 ''
             ]);

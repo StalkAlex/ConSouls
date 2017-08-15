@@ -9,10 +9,18 @@
 namespace RPGBundle\Entity\Creature;
 
 
+/**
+ * Class Hero
+ * @package RPGBundle\Entity\Creature
+ */
 class Hero extends Creature
 {
     protected $stamina;
 
+    /**
+     * Hero constructor.
+     * @param array $actions
+     */
     public function __construct(array $actions)
     {
         $this->actions = $actions;

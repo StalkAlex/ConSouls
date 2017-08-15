@@ -9,17 +9,25 @@
 namespace RPGBundle\Entity\Creature;
 
 
+/**
+ * Class Boss
+ * @package RPGBundle\Entity\Creature
+ */
 class Boss extends Creature
 {
     protected $experienceCost;
 
+    /**
+     * Boss constructor.
+     * @param array $actions
+     */
     public function __construct(array $actions)
     {
         $this->actions = $actions;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getExperienceCost()
     {

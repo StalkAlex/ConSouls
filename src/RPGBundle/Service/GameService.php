@@ -19,6 +19,10 @@ use RPGBundle\Exception\NoActionDefinedException;
 use RPGBundle\Service\Domain\IAttackStrategy;
 use RPGBundle\Service\Domain\ICreatureFactory;
 
+/**
+ * Class GameService
+ * @package RPGBundle\Service
+ */
 class GameService
 {
     /** @var  IAttackStrategy */
@@ -57,6 +61,7 @@ class GameService
 
     /**
      * @return array
+     * @throws \RPGBundle\Exception\NoActionDefinedException
      */
     public function getHeroActions()
     {
@@ -103,11 +108,27 @@ class GameService
         return $action;
     }
 
+    /**
+     * This function calls strategy service to define whether attack was successful or was avoided,
+     * based on this it recalculates player statistics.
+     * We can substitute strategy service to change current fight mechanic
+     * @param Boss $boss
+     * @param Hero $hero
+     * @param AttackAction $attack
+     * @param Action $defense
+     */
     public function attackCalculation(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
     {
         $this->attackStrategyService->calculate($boss, $hero, $attack, $defense);
     }
 
+    /**
+     * Called at the end of the fight if player have won
+     * @param Profile $profile
+     * @param Boss $boss
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function levelUp(Profile $profile, Boss $boss)
     {
         $oldLevel = $profile->getLevel();

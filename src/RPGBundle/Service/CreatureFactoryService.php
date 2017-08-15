@@ -12,6 +12,7 @@ namespace RPGBundle\Service;
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
 use RPGBundle\Entity\Action\SwordAttack;
+use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Boss\FireChampion;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Creature\Hero\Knight;
@@ -19,6 +20,10 @@ use RPGBundle\Entity\Creature\Hero\Mage;
 use RPGBundle\Exception\CreatureNotFoundException;
 use RPGBundle\Service\Domain\ICreatureFactory;
 
+/**
+ * Class CreatureFactoryService
+ * @package RPGBundle\Service
+ */
 class CreatureFactoryService implements ICreatureFactory
 {
 
@@ -42,7 +47,7 @@ class CreatureFactoryService implements ICreatureFactory
 
     /**
      * Now it will return one exact boss then logic could become more complicated
-     * @return FireChampion
+     * @return Boss
      */
     public function createBoss()
     {

@@ -8,7 +8,10 @@
 
 namespace RPGBundle\Entity\Creature;
 
-
+/**
+ * Class Creature
+ * @package RPGBundle\Entity\Creature
+ */
 abstract class Creature
 {
     protected $name;

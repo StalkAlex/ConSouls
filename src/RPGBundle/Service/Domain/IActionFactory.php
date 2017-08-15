@@ -9,6 +9,11 @@
 namespace RPGBundle\Service\Domain;
 
 
+/**
+ * Factory for creating attacking and defending actions in game like roll
+ * Interface IActionFactory
+ * @package RPGBundle\Service\Domain
+ */
 interface IActionFactory
 {
     public function createAction($code);

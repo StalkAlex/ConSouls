@@ -9,6 +9,11 @@
 namespace RPGBundle\Service\Domain;
 
 
+/**
+ * Working with creature instances
+ * Interface ICreatureFactory
+ * @package RPGBundle\Service\Domain
+ */
 interface ICreatureFactory
 {
     public function createHero(string $name, array $actions);

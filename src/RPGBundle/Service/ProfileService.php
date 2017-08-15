@@ -11,19 +11,36 @@ namespace RPGBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use RPGBundle\Entity\Profile;
+use RPGBundle\Exception\AbsentProfileException;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
+/**
+ * Class ProfileService
+ * @package RPGBundle\Service
+ */
 class ProfileService
 {
     private $manager;
     private $validator;
 
+    /**
+     * ProfileService constructor.
+     * @param EntityManager $manager
+     * @param RecursiveValidator $validator
+     */
     public function __construct(EntityManager $manager, RecursiveValidator $validator)
     {
         $this->manager = $manager;
         $this->validator = $validator;
     }
 
+    /**
+     * Creates new profile with initial values
+     * @param string $name
+     * @param string $heroName
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function createProfile(string $name, string $heroName)
     {
         $newProfile = new Profile();
@@ -38,18 +55,32 @@ class ProfileService
         $this->manager->flush();
     }
 
+    /**
+     * Returns all profiles from storage
+     * @return array
+     */
     public function getProfiles(): array
     {
-        return $this->manager->getRepository('RPGBundle:Profile')->findAll();
+        $profiles = $this->manager->getRepository('RPGBundle:Profile')->findAll();
+        if (!$profiles) {
+            return [];
+        }
+        return $profiles;
     }
 
     /**
+     * Get profile instance by its name from storage
      * @param string $name
-     * @return null|object
+     * @return Profile
+     * @throws AbsentProfileException
      */
     public function getProfile(string $name)
     {
-        return $this->manager->getRepository('RPGBundle:Profile')->findOneBy(['name' => $name]);
+        $profile = $this->manager->getRepository('RPGBundle:Profile')->findOneBy(['name' => $name]);
+        if (!$profile) {
+            throw new AbsentProfileException('There is no profile with this name ' . $name);
+        }
+        return $profile;
     }
 
 }

@@ -9,6 +9,10 @@
 namespace RPGBundle\Entity;
 
 
+/**
+ * Class Action
+ * @package RPGBundle\Entity
+ */
 abstract class Action
 {
     protected $code;

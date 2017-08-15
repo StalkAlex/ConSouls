@@ -9,6 +9,10 @@
 namespace RPGBundle\Exception;
 
 
+/**
+ * Class RPGBundleException
+ * @package RPGBundle\Exception
+ */
 abstract class RPGBundleException extends \Exception
 {
 

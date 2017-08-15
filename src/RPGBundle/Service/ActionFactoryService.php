@@ -9,6 +9,7 @@
 namespace RPGBundle\Service;
 
 
+use RPGBundle\Entity\Action;
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
 use RPGBundle\Entity\Action\Roll;
@@ -17,8 +18,18 @@ use RPGBundle\Entity\Action\SwordAttack;
 use RPGBundle\Exception\NoActionDefinedException;
 use RPGBundle\Service\Domain\IActionFactory;
 
+/**
+ * Class ActionFactoryService
+ * @package RPGBundle\Service
+ */
 class ActionFactoryService implements IActionFactory
 {
+    /**
+     * Creates action instance by its code
+     * @param $code
+     * @return Action
+     * @throws NoActionDefinedException
+     */
     public function createAction($code)
     {
         switch ($code) {
