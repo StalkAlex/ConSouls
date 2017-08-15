@@ -10,7 +10,6 @@ namespace RPGBundle\Exception;
 
 /**
  * Class ProfileValidationException
- * @package RPGBundle\Exception
  */
 class ProfileValidationException extends RPGBundleException
 {

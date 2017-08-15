@@ -12,7 +12,6 @@ use RPGBundle\Entity\Creature\Hero;
 
 /**
  * Class Knight
- * @package RPGBundle\Entity\Creature\Hero
  */
 class Knight extends Hero
 {

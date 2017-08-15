@@ -9,22 +9,21 @@
 namespace RPGBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use RPGBundle\Entity\Action;
-use RPGBundle\Entity\AttackAction;
+use RPGBundle\Entity\Action\AbstractAction;
+use RPGBundle\Entity\Action\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Exception\NoActionDefinedException;
-use RPGBundle\Service\Domain\IAttackStrategy;
-use RPGBundle\Service\Domain\ICreatureFactory;
+use RPGBundle\Service\Domain\InterfaceAttackStrategy;
+use RPGBundle\Service\Domain\InterfaceCreatureFactory;
 
 /**
  * Class GameService
- * @package RPGBundle\Service
  */
 class GameService
 {
-    /** @var  IAttackStrategy */
+    /** @var  InterfaceAttackStrategy */
     private $attackStrategyService;
     /** @var CreatureFactoryService $creatureFactory */
     private $creatureFactory;
@@ -33,13 +32,16 @@ class GameService
     /** @var  EntityManager $manager */
     private $manager;
 
-    public function __construct(
-        IAttackStrategy $attackStrategyService,
-        ICreatureFactory $creatureFactory,
-        ActionService $actionService,
-        EntityManager $manager
-    ) {
-    
+    /**
+     * GameService constructor.
+     *
+     * @param InterfaceAttackStrategy $attackStrategyService
+     * @param InterfaceCreatureFactory $creatureFactory
+     * @param ActionService $actionService
+     * @param EntityManager $manager
+     */
+    public function __construct(InterfaceAttackStrategy $attackStrategyService, InterfaceCreatureFactory $creatureFactory, ActionService $actionService, EntityManager $manager )
+    {
         $this->attackStrategyService = $attackStrategyService;
         $this->creatureFactory = $creatureFactory;
         $this->actionService = $actionService;
@@ -48,7 +50,8 @@ class GameService
 
     /**
      * Returns all available heroes in the game.
-     * For a simplicity it will return hardcoded instance, later it could be configured outside
+     * For a simplicity it will return hardcoded instance, later it could be configured outside.
+     *
      * @return array
      */
     public function getAvailableHeroes()
@@ -79,7 +82,7 @@ class GameService
 
     /**
      * @param string $code
-     * @return Action
+     * @return AbstractAction
      */
     public function getAction(string $code)
     {
@@ -112,18 +115,20 @@ class GameService
      * This function calls strategy service to define whether attack was successful or was avoided,
      * based on this it recalculates player statistics.
      * We can substitute strategy service to change current fight mechanic
+     *
      * @param Boss         $boss
      * @param Hero         $hero
      * @param AttackAction $attack
-     * @param Action       $defense
+     * @param AbstractAction       $defense
      */
-    public function attackCalculation(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
+    public function attackCalculation(Boss $boss, Hero $hero, AttackAction $attack, AbstractAction $defense)
     {
         $this->attackStrategyService->calculate($boss, $hero, $attack, $defense);
     }
 
     /**
-     * Called at the end of the fight if player have won
+     * Called at the end of the fight if player have won.
+     *
      * @param Profile $profile
      * @param Boss    $boss
      * @throws \Doctrine\ORM\ORMInvalidArgumentException

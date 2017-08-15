@@ -10,9 +10,8 @@ namespace RPGBundle\Entity\Creature;
 
 /**
  * Class Boss
- * @package RPGBundle\Entity\Creature
  */
-class Boss extends Creature
+class Boss extends AbstractCreature
 {
     protected $experienceCost;
 

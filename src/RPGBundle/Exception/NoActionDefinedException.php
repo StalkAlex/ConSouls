@@ -10,7 +10,6 @@ namespace RPGBundle\Exception;
 
 /**
  * Class NoActionDefinedException
- * @package RPGBundle\Exception
  */
 class NoActionDefinedException extends RPGBundleException
 {

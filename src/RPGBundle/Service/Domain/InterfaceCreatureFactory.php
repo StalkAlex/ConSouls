@@ -7,14 +7,24 @@
  */
 
 namespace RPGBundle\Service\Domain;
+use RPGBundle\Entity\Creature\Boss;
+use RPGBundle\Entity\Creature\Hero;
 
 /**
  * Working with creature instances
- * Interface ICreatureFactory
- * @package RPGBundle\Service\Domain
+ * Interface InterfaceCreatureFactory
  */
-interface ICreatureFactory
+interface InterfaceCreatureFactory
 {
+    /**
+     * @param string $name
+     * @param array $actions
+     * @return Hero
+     */
     public function createHero(string $name, array $actions);
+
+    /**
+     * @return Boss
+     */
     public function createBoss();
 }

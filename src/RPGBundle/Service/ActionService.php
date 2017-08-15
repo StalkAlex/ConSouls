@@ -8,30 +8,31 @@
 
 namespace RPGBundle\Service;
 
-use RPGBundle\Entity\Action;
+use RPGBundle\Entity\Action\AbstractAction;
 use RPGBundle\Exception\NoActionDefinedException;
-use RPGBundle\Service\Domain\IActionFactory;
+use RPGBundle\Service\Domain\InterfaceActionFactory;
 
 /**
  * Class ActionService
- * @package RPGBundle\Service
  */
 class ActionService
 {
-    /** @var IActionFactory $actionFactory */
+    /** @var InterfaceActionFactory $actionFactory */
     private $actionFactory;
 
-    /***
+    /**
      * ActionService constructor.
-     * @param IActionFactory $actionFactory
+     *
+     * @param InterfaceActionFactory $actionFactory
      */
-    public function __construct(IActionFactory $actionFactory)
+    public function __construct(InterfaceActionFactory $actionFactory)
     {
         $this->actionFactory = $actionFactory;
     }
 
     /**
      * Returns actions that can be used for defense.
+     *
      * @return array
      * @throws \RPGBundle\Exception\NoActionDefinedException
      */
@@ -44,16 +45,17 @@ class ActionService
     }
 
     /**
-     * Returns action by its code
+     * Returns action by its code.
+     *
      * @param string $code
-     * @return Action
+     * @return AbstractAction
      * @throws \RPGBundle\Exception\NoActionDefinedException
      */
     public function getAction(string $code)
     {
         $action = $this->actionFactory->createAction($code);
         if (!$action) {
-            throw new NoActionDefinedException('There is no action with code '.$code.' defined.');
+            throw new NoActionDefinedException(sprintf('There is no action with code %s defined.', $code));
         }
         return $action;
     }

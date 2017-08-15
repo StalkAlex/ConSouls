@@ -2,7 +2,7 @@
 
 namespace RPGBundle\Command;
 
-use RPGBundle\Entity\Action;
+use RPGBundle\Entity\AbstractAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
@@ -166,7 +166,7 @@ class GameCommand extends ContainerAwareCommand
     private function getHeroActions()
     {
         $codes = $this->gameService->getHeroActions();
-        return array_map(function (Action $action) {
+        return array_map(function (AbstractAction $action) {
             return $action->getCode();
         }, $codes);
     }

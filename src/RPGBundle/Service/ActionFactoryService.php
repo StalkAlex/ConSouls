@@ -8,28 +8,28 @@
 
 namespace RPGBundle\Service;
 
-use RPGBundle\Entity\Action;
+use RPGBundle\Entity\Action\AbstractAction;
 use RPGBundle\Entity\Action\FireStorm;
 use RPGBundle\Entity\Action\Grasp;
 use RPGBundle\Entity\Action\Roll;
 use RPGBundle\Entity\Action\Shield;
 use RPGBundle\Entity\Action\SwordAttack;
 use RPGBundle\Exception\NoActionDefinedException;
-use RPGBundle\Service\Domain\IActionFactory;
+use RPGBundle\Service\Domain\InterfaceActionFactory;
 
 /**
  * Class ActionFactoryService
- * @package RPGBundle\Service
  */
-class ActionFactoryService implements IActionFactory
+class ActionFactoryService implements InterfaceActionFactory
 {
     /**
      * Creates action instance by its code
+     *
      * @param $code
-     * @return Action
+     * @return AbstractAction
      * @throws NoActionDefinedException
      */
-    public function createAction($code)
+    public function createAction(string $code)
     {
         switch ($code) {
             case 'fireStorm':
@@ -43,7 +43,7 @@ class ActionFactoryService implements IActionFactory
             case 'swordAttack':
                 return new SwordAttack();
             default:
-                throw new NoActionDefinedException('There is no action with this code: '.$code);
+                throw new NoActionDefinedException(sprintf('There is no action with this code: %s', $code));
         }
     }
 }

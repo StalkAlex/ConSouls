@@ -8,11 +8,9 @@
 
 namespace RPGBundle\Entity\Action;
 
-use RPGBundle\Entity\AttackAction;
 
 /**
  * Class Grasp
- * @package RPGBundle\Entity\Action
  */
 class Grasp extends AttackAction
 {

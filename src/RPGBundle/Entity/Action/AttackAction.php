@@ -6,13 +6,12 @@
  * Time: 20:35
  */
 
-namespace RPGBundle\Entity;
+namespace RPGBundle\Entity\Action;
 
 /**
  * Class AttackAction
- * @package RPGBundle\Entity
  */
-class AttackAction extends Action
+class AttackAction extends AbstractAction
 {
     protected $isRollable;
     protected $isBlockable;

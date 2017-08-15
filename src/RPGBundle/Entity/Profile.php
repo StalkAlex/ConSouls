@@ -30,6 +30,7 @@ class Profile
 
     /**
      * @ORM\Column(name="name", type="string")
+     *
      * @Assert\NotBlank()
      */
     private $name;

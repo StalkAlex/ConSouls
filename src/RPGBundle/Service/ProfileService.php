@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 /**
  * Class ProfileService
- * @package RPGBundle\Service
  */
 class ProfileService
 {
@@ -24,6 +23,7 @@ class ProfileService
 
     /**
      * ProfileService constructor.
+     *
      * @param EntityManager      $manager
      * @param RecursiveValidator $validator
      */
@@ -34,7 +34,8 @@ class ProfileService
     }
 
     /**
-     * Creates new profile with initial values
+     * Creates new profile with initial values.
+     *
      * @param string $name
      * @param string $heroName
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
@@ -55,7 +56,8 @@ class ProfileService
     }
 
     /**
-     * Returns all profiles from storage
+     * Returns all profiles from storage.
+     *
      * @return array
      */
     public function getProfiles(): array
@@ -69,6 +71,7 @@ class ProfileService
 
     /**
      * Get profile instance by its name from storage
+     *
      * @param string $name
      * @return Profile
      * @throws AbsentProfileException
@@ -77,7 +80,7 @@ class ProfileService
     {
         $profile = $this->manager->getRepository('RPGBundle:Profile')->findOneBy(['name' => $name]);
         if (!$profile) {
-            throw new AbsentProfileException('There is no profile with this name '.$name);
+            throw new AbsentProfileException(sprintf('There is no profile with this name %s', $name));
         }
         return $profile;
     }

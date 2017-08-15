@@ -10,9 +10,8 @@ namespace RPGBundle\Entity\Creature;
 
 /**
  * Class Hero
- * @package RPGBundle\Entity\Creature
  */
-class Hero extends Creature
+class Hero extends AbstractCreature
 {
     protected $stamina;
 

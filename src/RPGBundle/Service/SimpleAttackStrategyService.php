@@ -8,12 +8,12 @@
 
 namespace RPGBundle\Service;
 
-use RPGBundle\Entity\Action;
-use RPGBundle\Entity\AttackAction;
+use RPGBundle\Entity\Action\AbstractAction;
+use RPGBundle\Entity\Action\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
-use RPGBundle\Entity\Creature\Creature;
+use RPGBundle\Entity\Creature\AbstractCreature;
 use RPGBundle\Entity\Creature\Hero;
-use RPGBundle\Service\Domain\IAttackStrategy;
+use RPGBundle\Service\Domain\InterfaceAttackStrategy;
 
 /**
  * For MVP we create simple attack strategy.
@@ -21,14 +21,14 @@ use RPGBundle\Service\Domain\IAttackStrategy;
  * Also it return successful result if player choose roll for rollable boss attack, or shield - for blockable.
  * Later it could be extended to more complicated logic based on some boss/hero etc. characteristics
  * Class AttackStrategyService
- * @package RPGBundle\Service
  */
-class SimpleAttackStrategyService implements IAttackStrategy
+class SimpleAttackStrategyService implements InterfaceAttackStrategy
 {
     /**
      * Returns next attack for boss during fight process.
      * Normally it supposed to consider some player statistics to make fight more interesting.
-     * For MVP simplicity it will return random action
+     * For MVP simplicity it will return random action.
+     *
      * @param Boss $boss
      * @return null|AttackAction
      */
@@ -44,12 +44,13 @@ class SimpleAttackStrategyService implements IAttackStrategy
 
     /**
      * Recalculates player statistics whether attack was successful or not.
+     *
      * @param Boss         $boss
      * @param Hero         $hero
      * @param AttackAction $attack
-     * @param Action       $defense
+     * @param AbstractAction       $defense
      */
-    public function calculate(Boss $boss, Hero $hero, AttackAction $attack, Action $defense)
+    public function calculate(Boss $boss, Hero $hero, AttackAction $attack, AbstractAction $defense)
     {
         if ($this->isDefenseSuccessful($attack, $defense)) {
             $this->updateHealth($boss, $hero);
@@ -60,20 +61,20 @@ class SimpleAttackStrategyService implements IAttackStrategy
 
     /**
      * @param AttackAction $attack
-     * @param Action       $defense
+     * @param AbstractAction       $defense
      * @return bool
      */
-    private function isDefenseSuccessful(AttackAction $attack, Action $defense)
+    private function isDefenseSuccessful(AttackAction $attack, AbstractAction $defense)
     {
         return ($defense->getCode() === 'roll' && $attack->getIsRollable())
             || ($defense->getCode() === 'shield' && $attack->getIsBlockable());
     }
 
     /**
-     * @param Creature $creature1
-     * @param Creature $creature2
+     * @param AbstractCreature $creature1
+     * @param AbstractCreature $creature2
      */
-    private function updateHealth(Creature $creature1, Creature $creature2)
+    private function updateHealth(AbstractCreature $creature1, AbstractCreature $creature2)
     {
         $newHealth = $creature1->getHealth() - $creature2->getDamage();
         if ($newHealth < 0) {

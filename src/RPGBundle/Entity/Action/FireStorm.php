@@ -8,11 +8,9 @@
 
 namespace RPGBundle\Entity\Action;
 
-use RPGBundle\Entity\AttackAction;
 
 /**
  * Class FireStorm
- * @package RPGBundle\Entity\Action
  */
 class FireStorm extends AttackAction
 {

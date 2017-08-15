@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * Class ProfileRepository
- * @package RPGBundle\Repository
  */
 class ProfileRepository extends EntityRepository
 {

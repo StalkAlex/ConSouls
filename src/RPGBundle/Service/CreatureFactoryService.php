@@ -17,13 +17,12 @@ use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Creature\Hero\Knight;
 use RPGBundle\Entity\Creature\Hero\Mage;
 use RPGBundle\Exception\CreatureNotFoundException;
-use RPGBundle\Service\Domain\ICreatureFactory;
+use RPGBundle\Service\Domain\InterfaceCreatureFactory;
 
 /**
  * Class CreatureFactoryService
- * @package RPGBundle\Service
  */
-class CreatureFactoryService implements ICreatureFactory
+class CreatureFactoryService implements InterfaceCreatureFactory
 {
 
     /**
@@ -40,12 +39,13 @@ class CreatureFactoryService implements ICreatureFactory
             case 'Mage':
                 return new Mage($actions);
             default:
-                throw new CreatureNotFoundException('Creature not found: '.$name);
+                throw new CreatureNotFoundException(sprintf('Creature not found: %s', $name));
         }
     }
 
     /**
      * Now it will return one exact boss then logic could become more complicated
+     *
      * @return Boss
      */
     public function createBoss()
@@ -53,7 +53,7 @@ class CreatureFactoryService implements ICreatureFactory
         return new FireChampion([
             new Grasp(),
             new SwordAttack(),
-            new FireStorm()
+            new FireStorm(),
         ]);
     }
 }

@@ -6,13 +6,12 @@
  * Time: 10:47
  */
 
-namespace RPGBundle\Entity;
+namespace RPGBundle\Entity\Action;
 
 /**
  * Class Action
- * @package RPGBundle\Entity
  */
-abstract class Action
+abstract class AbstractAction
 {
     protected $code;
 

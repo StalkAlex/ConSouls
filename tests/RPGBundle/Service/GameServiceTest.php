@@ -8,6 +8,9 @@
 
 namespace RPGBundle\Service;
 
+/**
+ * Class GameServiceTest
+ */
 class GameServiceTest
 {
 
