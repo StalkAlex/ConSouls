@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-docker exec -it challenge_php ./vendor/bin/phpunit
+#docker exec -it challenge_php ./vendor/phpunit/phpunit/phpunit --coverage-html ./coverage
+docker exec -it challenge_php ./vendor/phpunit/phpunit/phpunit
