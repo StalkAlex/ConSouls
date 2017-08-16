@@ -115,7 +115,7 @@ class GameCommand extends ContainerAwareCommand
         $boss = $this->gameService->getBoss();
         $this->output->writeln([
             '<info>',
-            'You\'re about to fight with '.$boss->getName().'-'.$boss->getDescription(),
+            'You\'re about to fight with '.$boss->getName().' - '.$boss->getDescription(),
             '============================',
             '</info>',
             '',
@@ -128,6 +128,12 @@ class GameCommand extends ContainerAwareCommand
      * @param Boss    $boss
      * @param Hero    $hero
      * @param Profile $profile
+     *
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
+     * @throws \RPGBundle\Exception\NoActionDefinedException
+     * @throws \Symfony\Component\Console\Exception\LogicException
      */
     private function processGame(Boss $boss, Hero $hero, Profile $profile)
     {

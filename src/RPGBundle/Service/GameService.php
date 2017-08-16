@@ -76,6 +76,8 @@ class GameService
      * @param string $name
      *
      * @return Hero
+     *
+     * @throws \RPGBundle\Exception\NoActionDefinedException
      */
     public function getHero(string $name)
     {

@@ -50,6 +50,9 @@ class CharacterCommandTest extends WebTestCase
         $this->serviceMock = $serviceMock;
     }
 
+    /**
+     * Test create profile
+     */
     public function testCreateProfile()
     {
         static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
@@ -62,6 +65,9 @@ class CharacterCommandTest extends WebTestCase
         $this->assertContains('successfully created', $output);
     }
 
+    /**
+     * Test create anonymous profile without name specifying
+     */
     public function testCreateAnonymousProfile()
     {
         static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
@@ -75,15 +81,19 @@ class CharacterCommandTest extends WebTestCase
         $this->assertContains('anonymous', $output);
     }
 
+    /**
+     * Test validation scenario
+     */
     public function testIfValidationShowsForDuplicateName()
     {
         //simulate existence of Tester profile
         $this->serviceMock->expects($this->any())
             ->method('getProfile')
             ->willReturnCallback(function ($name) {
-                if ($name === 'Tester') {
+                if ('Tester' === $name) {
                     return new Profile();
                 }
+
                 return null;
             });
         static::$kernel->getContainer()->set('rpg.profile', $this->serviceMock);
