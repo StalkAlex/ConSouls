@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: AlexandrAboimov
- * Date: 16.08.2017
- * Time: 12:27
- */
-
 namespace RPGBundle\Service;
 
 use RPGBundle\Entity\Action\FireStorm;
