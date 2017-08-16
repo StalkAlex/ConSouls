@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
  */
 class ActionServiceTest extends TestCase
 {
-
     /**
      * Test getAction method
      */
