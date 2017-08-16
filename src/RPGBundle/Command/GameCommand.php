@@ -233,7 +233,7 @@ class GameCommand extends ContainerAwareCommand
     }
 
     /**
-     * Shows oin case of player looses
+     * Shows in case of player loses
      */
     private function showFail()
     {

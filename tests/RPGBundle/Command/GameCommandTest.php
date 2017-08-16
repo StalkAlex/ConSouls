@@ -83,7 +83,7 @@ class GameCommandTest extends WebTestCase
     /**
      * Test win scenario
      */
-    public function testIfGameCouldBeWin()
+    public function testIfGameCouldBeWon()
     {
         //mocking boss with only one action, that can be rolled
         $this->creatureFactoryServiceMock->expects($this->once())
@@ -108,15 +108,15 @@ class GameCommandTest extends WebTestCase
     }
 
     /**
-     * Test loose scenario
+     * Test lose scenario
      */
-    public function testIfGameCouldBeLoose()
+    public function testIfGameCouldBeLost()
     {
         //same as in win test, but will mock unrollable action
         $this->creatureFactoryServiceMock->expects($this->once())
             ->method('createBoss')
             ->willReturn(new FireChampion([new FireStorm()]));
-        //mock db actions, it should never be called as we're going to loose and statistics won't update
+        //mock db actions, it should never be called as we're going to lose and statistics won't update
         $this->emMock->expects($this->never())
             ->method('persist')
             ->willReturn(true);

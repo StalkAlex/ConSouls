@@ -56,11 +56,6 @@ class ActionService
      */
     public function getAction(string $code)
     {
-        $action = $this->actionFactory->createAction($code);
-        if (!$action) {
-            throw new NoActionDefinedException(sprintf('There is no action with code %s defined.', $code));
-        }
-
-        return $action;
+        return $this->actionFactory->createAction($code);
     }
 }

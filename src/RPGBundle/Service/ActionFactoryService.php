@@ -48,7 +48,7 @@ class ActionFactoryService implements ActionFactoryInterface
             case 'swordAttack':
                 return new SwordAttack();
             default:
-                throw new NoActionDefinedException(sprintf('There is no action with this code: %s', $code));
+                throw new NoActionDefinedException(sprintf('There is no action with this code defined: %s', $code));
         }
     }
 }
