@@ -14,6 +14,7 @@ use RPGBundle\Entity\Action\AttackAction;
 use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
+use RPGBundle\Exception\CharacterInsufficientActionException;
 use RPGBundle\Exception\NoActionDefinedException;
 use RPGBundle\Service\Domain\AttackStrategyInterface;
 use RPGBundle\Service\Domain\CreatureFactoryInterface;
@@ -65,7 +66,7 @@ class GameService
     /**
      * @return array
      *
-     * @throws \RPGBundle\Exception\NoActionDefinedException
+     * @throws NoActionDefinedException
      */
     public function getHeroActions()
     {
@@ -77,7 +78,7 @@ class GameService
      *
      * @return Hero
      *
-     * @throws \RPGBundle\Exception\NoActionDefinedException
+     * @throws NoActionDefinedException
      */
     public function getHero(string $name)
     {
@@ -88,6 +89,8 @@ class GameService
      * @param string $code
      *
      * @return AbstractAction
+     *
+     * @throws NoActionDefinedException
      */
     public function getAction(string $code)
     {
@@ -107,16 +110,11 @@ class GameService
      *
      * @return AttackAction
      *
-     * @throws NoActionDefinedException
+     * @throws CharacterInsufficientActionException
      */
     public function getBossAttack(Boss $boss)
     {
-        $action = $this->attackStrategyService->getNextAction($boss);
-        if (!$action) {
-            throw new NoActionDefinedException('There are no defined actions for boss instance');
-        }
-
-        return $action;
+        return $this->attackStrategyService->getNextAction($boss);
     }
 
     /**
