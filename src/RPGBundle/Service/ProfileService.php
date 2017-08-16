@@ -11,6 +11,7 @@ namespace RPGBundle\Service;
 use Doctrine\ORM\EntityManager;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Exception\AbsentProfileException;
+use RPGBundle\Exception\ProfileValidationException;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 /**
@@ -41,6 +42,7 @@ class ProfileService
      *
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \RPGBundle\Exception\ProfileValidationException
      */
     public function createProfile(string $name, string $heroName)
     {
@@ -50,7 +52,7 @@ class ProfileService
 
         $errors = $this->validator->validate($newProfile);
         if (count($errors)) {
-            var_dump($errors);
+            throw new ProfileValidationException('Profile has incorrect attributes.');
         }
         $this->manager->persist($newProfile);
         $this->manager->flush();
