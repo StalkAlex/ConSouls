@@ -38,13 +38,6 @@ class ActionFactoryServiceTest extends TestCase
             $actionInstance = $factory->createAction($code);
             $this->assertSame($actionInstance->getCode(), $action->getCode());
         }
-    }
-
-    /**
-     * Test exception
-     */
-    public function testExceptionForNonExistentAction()
-    {
         $this->expectException(NoActionDefinedException::class);
         $factory = new ActionFactoryService();
         $factory->createAction('non-existent-action');
