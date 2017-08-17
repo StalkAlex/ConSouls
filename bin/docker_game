@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker exec -it challenge_php ./bin/console rpg:game
+
