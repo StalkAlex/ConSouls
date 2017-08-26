@@ -1,0 +1,6 @@
+version: '2'
+services:
+  data:
+    volumes:
+      - /c/Users/stalk/OneDrive/Work/auto1:/www
+

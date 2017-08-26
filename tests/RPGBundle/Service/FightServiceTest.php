@@ -8,9 +8,9 @@ use RPGBundle\Entity\Profile;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
- * Class GameServiceTest
+ * Class FightServiceTest
  */
-class GameServiceTest extends TestCase
+class FightServiceTest extends TestCase
 {
     /**
      * Test levelUp is working properly
@@ -26,7 +26,7 @@ class GameServiceTest extends TestCase
         $emMock->expects($this->once())
             ->method('flush')
             ->willReturn(true);
-        $gameService = new GameService(
+        $fightService = new FightService(
             new SimpleAttackStrategyService(),
             new CreatureFactoryService(),
             new ActionService(new ActionFactoryService()),
@@ -34,7 +34,7 @@ class GameServiceTest extends TestCase
         );
         $profile = new Profile();
         $boss = new FireChampion([]);
-        $gameService->levelUp($profile, $boss);
+        $fightService->levelUp($profile, $boss);
         $this->assertEquals(2, $profile->getLevel());
         $this->assertEquals($boss->getExperienceCost(), $profile->getExperience());
     }

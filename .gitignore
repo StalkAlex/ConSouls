@@ -15,5 +15,4 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-.docker-data
-.docker_data
+docker-compose.override.yml

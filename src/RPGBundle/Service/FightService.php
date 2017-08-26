@@ -20,9 +20,9 @@ use RPGBundle\Service\Domain\AttackStrategyInterface;
 use RPGBundle\Service\Domain\CreatureFactoryInterface;
 
 /**
- * Class GameService
+ * Class FightService
  */
-class GameService
+class FightService
 {
     /** @var  AttackStrategyInterface */
     private $attackStrategyService;
@@ -34,7 +34,7 @@ class GameService
     private $manager;
 
     /**
-     * GameService constructor.
+     * FightService constructor.
      *
      * @param AttackStrategyInterface  $attackStrategyService
      * @param CreatureFactoryInterface $creatureFactory

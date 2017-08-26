@@ -4,7 +4,7 @@ namespace RPGBundle\Command;
 
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Exception\AbsentProfileException;
-use RPGBundle\Service\GameService;
+use RPGBundle\Service\FightService;
 use RPGBundle\Service\ProfileService;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -18,8 +18,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class CharacterCommand extends ContainerAwareCommand
 {
-    /** @var GameService $creatureService */
-    private $gameService;
+    /** @var FightService $creatureService */
+    private $fightService;
     /** @var ProfileService $profileService */
     private $profileService;
 
@@ -45,7 +45,7 @@ class CharacterCommand extends ContainerAwareCommand
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->gameService = $this->getContainer()->get('rpg.game');
+        $this->fightService = $this->getContainer()->get('rpg.fight');
         $this->profileService = $this->getContainer()->get('rpg.profile');
     }
 
@@ -109,7 +109,7 @@ class CharacterCommand extends ContainerAwareCommand
      */
     private function getHeroList()
     {
-        $heroes = $this->gameService->getAvailableHeroes();
+        $heroes = $this->fightService->getAvailableHeroes();
 
         return array_map(function (Hero $hero) {
             return $hero->getName();

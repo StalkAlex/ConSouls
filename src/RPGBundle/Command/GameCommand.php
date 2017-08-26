@@ -7,7 +7,7 @@ use RPGBundle\Entity\Creature\Boss;
 use RPGBundle\Entity\Creature\Hero;
 use RPGBundle\Entity\Profile;
 use RPGBundle\Service\ActionService;
-use RPGBundle\Service\GameService;
+use RPGBundle\Service\FightService;
 use RPGBundle\Service\ProfileService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,8 +22,8 @@ class GameCommand extends ContainerAwareCommand
 {
     /** @var  ProfileService $profileService */
     private $profileService;
-    /** @var GameService $gameService */
-    private $gameService;
+    /** @var FightService $fightService */
+    private $fightService;
     /** @var  ActionService $actionService */
     private $actionService;
     /** @var  InputInterface $input */
@@ -50,7 +50,7 @@ class GameCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->profileService = $this->getContainer()->get('rpg.profile');
-        $this->gameService = $this->getContainer()->get('rpg.game');
+        $this->fightService = $this->getContainer()->get('rpg.fight');
         $this->actionService = $this->getContainer()->get('rpg.action');
         $this->input = $input;
         $this->output = $output;
@@ -111,8 +111,8 @@ class GameCommand extends ContainerAwareCommand
             '</comment>',
             '',
         ]);
-        $hero = $this->gameService->getHero($profile->getHeroName());
-        $boss = $this->gameService->getBoss();
+        $hero = $this->fightService->getHero($profile->getHeroName());
+        $boss = $this->fightService->getBoss();
         $this->output->writeln([
             '<info>',
             'You\'re about to fight with '.$boss->getName().' - '.$boss->getDescription(),
@@ -139,7 +139,7 @@ class GameCommand extends ContainerAwareCommand
     {
         $helper = $this->getHelper('question');
         while (true) {
-            $attackAction = $this->gameService->getBossAttack($boss);
+            $attackAction = $this->fightService->getBossAttack($boss);
             $this->output->writeln([
                 '<error>',
                 'Boss attacking...',
@@ -159,7 +159,7 @@ class GameCommand extends ContainerAwareCommand
             $actionCode = $helper->ask($this->input, $this->output, $choice);
             $defenseAction = $this->actionService->getAction($actionCode);
             $heroBeforeAttack = clone $hero;
-            $this->gameService->attackCalculation($boss, $hero, $attackAction, $defenseAction);
+            $this->fightService->attackCalculation($boss, $hero, $attackAction, $defenseAction);
             $this->showGameStats($hero, $boss, $heroBeforeAttack);
             //update stats using damage count strategy
             if ($hero->getHealth() <= 0) {
@@ -167,7 +167,7 @@ class GameCommand extends ContainerAwareCommand
                 break;
             }
             if ($boss->getHealth() <= 0) {
-                $this->gameService->levelUp($profile, $boss);
+                $this->fightService->levelUp($profile, $boss);
                 $this->showSuccess();
                 break;
             }
@@ -191,7 +191,7 @@ class GameCommand extends ContainerAwareCommand
      */
     private function getHeroActions()
     {
-        $codes = $this->gameService->getHeroActions();
+        $codes = $this->fightService->getHeroActions();
 
         return array_map(function (AbstractAction $action) {
             return $action->getCode();

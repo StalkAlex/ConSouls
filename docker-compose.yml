@@ -1,11 +1,11 @@
 version: '2'
 services:
   data:
+    image: busybox:latest
     container_name: challenge_data
-    build: ./docker/data
     volumes:
-      - /c/Users/stalk/OneDrive/Work/auto1:/www
-    command: /var/local/entrypoint.sh
+      - ./:/www
+    command: /bin/true
 
   db:
     container_name: challenge_mysql
@@ -13,7 +13,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /c/Users/stalk/OneDrive/Work/auto1/.docker_data/mysql-data:/var/lib/mysql
+      - data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: challenge
@@ -48,3 +48,5 @@ services:
     volumes_from:
       - php
       - data
+volumes:
+  data:
