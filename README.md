@@ -1,4 +1,5 @@
 ###ConSouls
+
 **ConSouls** is a command line based fantasy RPG, where players must battle monsters in a dark fictional world - console :) Inspired by Dark Souls game series.
 
 Prepare to die lots of times, fighting monsters over and over before you know their habits well enough. Listen carefully, because a monster's growl is the key to the victory, it is unique for its every move.
