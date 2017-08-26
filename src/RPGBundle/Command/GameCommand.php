@@ -86,9 +86,18 @@ class GameCommand extends ContainerAwareCommand
             '</comment>',
             '',
         ]);
+        $profileList = $this->getProfilesList();
+        if (empty($profileList)) {
+            $this->output->writeln([
+                '<error>',
+                'Please create profile first using command rpg:create_profile',
+                '</error>',
+                '',
+            ]);
+        }
         $choice = new ChoiceQuestion(
             'Please choose your profile. To create new profile use rpg:create_profile',
-            $this->getProfilesList(),
+            $profileList,
             0
         );
         $choice->setErrorMessage('Choice is invalid');
@@ -258,7 +267,7 @@ class GameCommand extends ContainerAwareCommand
             '============',
             '',
             'Your destiny awaits you.',
-            'You can create another profile and play again as in this demo version lives only one boss',
+            'You can create another profile or play again as in this demo version lives only one boss',
             '</info>',
         ]);
     }

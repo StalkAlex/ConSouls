@@ -6,13 +6,14 @@ Prepare to die lots of times, fighting monsters over and over before you know th
 
 Since this version of game is MVP, I have implemented the following functions: profile registration, fighting and game saving.
 
-- **Profile registration.** It is mandatory that a user has at least one existing profile before playing. To create a profile you use ```rpg:create_profile``` command. Then you have to type your profile name and choose a class. There are two example classes in this version: a Mage and a Knight. Each class has its own characteristics.
+- **Profile registration.** It is mandatory that a user has at least one existing profile before playing. To create a profile you use ```bin/docker_profile``` command. Then you have to type your profile name and choose a class. There are two example classes in this version: a Mage and a Knight. Each class has its own characteristics.
 
-- **Fighting.** After registration the profile user can start to play, using ```rpg:game``` command. This version contains one example monster that fights the player. It attacks first, and the player can choose from two example commands to confront: blocking and rolling. The monster has several kinds of its attack, each of them needs its own way of confrontation; the player has to guess which one. The player’s attack is activated automatically in case of a successful repelling an enemy’s hit. After each attack the fighting stats are shown. The player gets a level up when killing a monster.
-  - Attacks of the current monster: 
+- **Fighting.** After registration the profile user can start to play, using ```bin/docker_game``` command. This version contains one example monster that fights the player. It attacks first, and the player can choose from two example commands to confront: blocking and rolling. The monster has several kinds of its attack, each of them needs its own way of confrontation; the player has to guess which one. The player’s attack is activated automatically in case of a successful repelling an enemy’s hit. After each attack the fighting stats are shown. The player gets a level up when killing a monster.
+  - Attacks of the current monster:
     - Grasp. This is a rollable attack. The sound is 'Grrrrr'. To deal a damage to the monster player has to roll.
     - Sword attack. This atack can be confronted by both rolling or blocking. The sound for this attack is 'Arghhh'.
-    - Fire storm. This one is a tricky attack, it's undefendable, because you can't be absolutely safe in this game :) The sound is 'Bams'. This action set is balanced, so the player can win the fight successfully defending two other attacks.
+    - Fire storm. This one is a tricky attack, it's undefendable, because you can't be absolutely safe in this game :) The sound is 'Bams'.
+    - Now all actions are chosen randomly, if you haven't won first time, just try again.
 
 - **Saving the game.** The game is saved automatically after the player wins a fight. Also, it's loaded automatically when the player enters the game.
 
